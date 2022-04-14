@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meemz | Profile Edit</title>
+
+    <link rel="icon" href="../static/icons/favicon.ico" />
+    <link rel="apple-touch-icon" href="../static/icons/favicon.ico">
+    <link rel="manifest" href="../static/manifest.json">
+
+    <link rel="stylesheet" href="../static/stylesheets/App.css">
+    <link rel="stylesheet" href="../static/stylesheets/index.css">
+    <link rel="stylesheet" href="../static/stylesheets/BottomNav.css">
+    <link rel="stylesheet" href="../static/stylesheets/Convo.css">
+    <link rel="stylesheet" href="../static/stylesheets/ConvoCreate.css">
+    <link rel="stylesheet" href="../static/stylesheets/ConvoPage.css">
+    <link rel="stylesheet" href="../static/stylesheets/Create.css">
+    <link rel="stylesheet" href="../static/stylesheets/dark.css">
+    <link rel="stylesheet" href="../static/stylesheets/Home.css">
+    <link rel="stylesheet" href="../static/stylesheets/ImageStats.css">
+    <link rel="stylesheet" href="../static/stylesheets/PrivatePosts.css">
+    <link rel="stylesheet" href="../static/stylesheets/Profile.css">
+    <link rel="stylesheet" href="../static/stylesheets/ProfileEdit.css">
+    <link rel="stylesheet" href="../static/stylesheets/Search.css">
+    <link rel="stylesheet" href="../static/stylesheets/Signup.css">
+    <link rel="stylesheet" href="../static/stylesheets/Verify.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.js"></script>
+    <script src="../static/sw.js" defer></script>
+    <script src="../static/sw_init.js" defer></script>
+</head>
+
+<script>
+    axios.post("/fetch_user").then(res =>{
+        if (res.data === null) {
+            window.location.replace("/login");
+        }
+    });
+</script>
+
+<body>
+    <div class="profile_edit">
+        <center>
+            <div id="tip"
+                style="background-color : grey ; width : 300px ; border-radius : 10px ; animation : fadeInDown ; animation-duration : 800ms;">
+                <small
+                    style="background-color : transparent ; font-family : 'Maven Pro', sans-serif ; color : wheat;">*Changes
+                    are automatically saved</small>
+            </div>
+        </center>
+
+        <p id="auth_errs" class="auth_errs"></p>
+
+        <center style="padding-top : 10px">
+            <img id="profile_edit_img" alt="profile_img" class="profile_edit_img"
+                style="border : 1px solid grey;" />
+            <input class="profile_img_select" id="dp" type="file" name="dp" style="display : none" accept="image/*"
+                onchange="Change()" />
+        </center>
+        <center>
+            <div class="profile_label_div">
+                <label for="dp" class="profile_choose_img">Choose an image</label>
+            </div>
+        </center>
+        <p></p>
+        <div class="profile_edit_username_div">
+            <input id="profile_edit_username" class="profile_edit_username" type="text" />
+        </div>
+        <div class="profile_edit_email_div">
+            <input id="profile_edit_email" class="profile_edit_email" type="text" />
+        </div>
+        <small style="color : wheat ; margin-left : 5px;">*Max. of 210 characters</small>
+        <div class="profile_edit_bio_div">
+            <textarea id="profile_edit_bio" class="profile_edit_bio" name="Bio" cols="30" rows="10"></textarea>
+        </div>
+    </div>
+</body>
+<script src="../static/scripts/profileEdit.js"></script>
+</html>

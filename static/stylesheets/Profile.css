@@ -1,0 +1,91 @@
+.profile{
+    animation: fadeIn;
+    animation-duration: 800ms;
+}
+
+.profile_details{
+    display: grid;
+    place-content: center;
+    padding-top: 35px;
+}
+
+.profile_img_div{
+    width: 150px;
+    height: 150px;
+    margin-top: 10px;
+}
+
+.profile_img{
+    width: 150px;
+    height: 150px;
+    border-radius: 6px;
+}
+
+.profile_username{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.profile_config_main{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 10px;
+    border-top: 1px solid rgb(150, 150, 150);
+    border-bottom: 1px solid rgb(150, 150, 150);
+    position: relative;
+}
+
+.profile_subs{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+
+.profile_top_bar{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.private, .profile_edit, .sign_out{
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.profile_content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.posts{
+    color: white;
+    font-size: 20px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.convo_rooms_present{
+    font-size: 25px;
+    margin: 5px;
+}
+
+.posts_num{
+    display: grid;
+    place-items: center;
+    border: 1px wheat solid;
+    margin-top: 5px;
+    width: 50%;
+    border-radius: 20px;
+    box-shadow: .2px .2px 5px wheat;
+}
+
+.posts_num_txt{
+    color: wheat;
+    font-size: 15px;
+    margin: 5px;
+    background-color: transparent;
+}

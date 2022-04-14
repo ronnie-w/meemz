@@ -1,0 +1,37 @@
+.private_meemz {
+   padding-top: 40px;
+   display: grid;
+   place-content: center;
+}
+
+.private_meem_main_div{
+    margin-top: 5px;
+}
+
+.private_meem { 
+    border-radius: 10px;
+    box-shadow: .5px .5px 7px grey;
+    margin: 20px;
+}
+
+.private_actions{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-around;
+    background-color: transparent;
+}
+
+.private_to_public{
+    color: #121212;
+    background-color: white;
+}
+
+.private_delete{
+    color: #121212;
+    background-color: red;
+}
+
+.private_globe, .private_trash{
+    color: #121212;
+}

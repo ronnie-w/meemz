@@ -1,0 +1,96 @@
+.create{
+    animation: fadeIn;
+    animation-duration: 800ms;
+}
+
+.image_select_label{
+    display: grid;
+    place-items: center;
+    margin: 10px;
+}
+
+.image_select{
+    background-color: wheat;
+    width: 200px;
+    display: grid;
+    place-items: center;
+    border-radius: 20px;
+    box-shadow: .5px .5px 7px wheat;
+}
+
+.image_select_text{
+    background-color: wheat;
+    color: #121212;
+    font-family: 'Comfortaa', cursive;
+    margin: 10px;
+}
+
+.image_container{
+    display: flex;
+    overflow-x: scroll;
+}
+
+.configurations{
+    display: grid;
+    place-content: center;
+}
+
+.pinned_div{
+    box-shadow: .2px .2px 5px grey;
+    border-radius: 6px;
+    display: grid;
+    place-content: center;
+    margin: 5px;
+}
+
+.pinned{
+    background-color: rgba(0, 0, 0, 0);
+    display: inline-block;
+}
+
+.tags_div{
+    box-shadow: .2px .2px 5px grey;
+    border-radius: 6px;
+    display: grid;
+    place-content: center;
+    margin: 5px;
+}
+
+.tags{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.access_label{
+    font-family: 'Maven Pro', sans-serif;
+}
+
+.upload_btn{
+    background-color: white;
+    margin: 10px;
+    margin-bottom: 50px;
+    color: #121212;
+}
+
+
+.err{
+    color: red;
+    text-align: center;
+}
+
+.loader{
+    width: 100%;
+    height: 5px;
+    display: grid;
+    place-content: center;
+    margin-top: 50px;
+}
+
+.loader_init{
+    width: 50px;
+    height: 5px;
+    background-color: rgb(133, 133, 133);
+    position: absolute;
+    border-radius: 10px;
+    display: none;
+    font-family: 'Maven Pro', sans-serif;
+}

@@ -1,0 +1,54 @@
+.verify_div{
+    display: grid;
+    place-content: center;
+    margin-top: 50px;
+}
+
+.verify_title{
+    color: whitesmoke;
+    font-family: 'Knewave', cursive;
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+.verify_input_div {
+    border: 1px solid whitesmoke;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    margin-top: 70px;
+}
+
+.verify_input {
+    background-color: rgba(245, 245, 220, 0);
+    margin: 5px;
+}
+
+.verify_btn {
+    background-color: wheat;
+    color: #121212;
+    margin: 5px;
+}
+
+.verify_btn_div {
+    display: grid;
+    place-content: center;
+    text-align: center;
+}
+
+.err_msg {
+    display: none;
+    color: red;
+    text-align: center;
+}
+
+.wrong_mail{
+    background-color: grey;
+    margin-right: 10px;
+    margin-top: 15px;
+    color: #121212;
+}
+
+.verify_topbar{
+    display: flex;
+    justify-content: space-between;
+}

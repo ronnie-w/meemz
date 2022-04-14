@@ -1,0 +1,142 @@
+.convo_top{
+    width: 100%;
+    background-color: #121212;
+    position: fixed;
+    top: 0;
+}
+
+.conversations{
+    display: inline;
+    margin-left: 10px;
+    animation: flash;
+    animation-delay: 1s;
+    animation-duration: 800ms;
+    color: whitesmoke;
+    font-family: 'Maven Pro', sans-serif;
+}
+
+.browse_topics{
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    animation: fadeInDown;
+    animation-duration: 800ms;
+    background-color: transparent;
+}
+
+/*create topic*/
+.convo_create{
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: fit-content;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 50px;
+    background-color: grey;
+    box-shadow: .5px .5px 7px grey;
+}
+
+.convo_create_title{
+    margin: 15px;
+    color: #121212;
+    font-family: 'Comfortaa', cursive;
+    background-color: transparent;
+}
+
+.convo_create_icon{
+    color: #121212;
+    margin: 15px;
+    animation: rotateIn;
+    animation-duration: 800ms;
+}
+
+/*music div*/
+.convo_music{
+    margin-left: 10px;
+    margin-top: 50px;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    border: 1px dashed grey;
+    border-radius: 10px;
+    animation: fadeInLeft;
+    animation-duration: 2s;
+}
+
+.convo_music_title{
+    margin: 10px;
+}
+
+.convo_music_icon{
+    margin: 10px;
+    text-shadow: .2px .2px 5px white;
+}
+
+.convo_custom{
+    margin-left: 10px;
+    margin-top: 150px;
+    width: fit-content;
+    display: flex;
+    justify-content: space-between;
+    border: 1px dashed wheat;
+    border-radius: 10px;
+}
+
+.convo_custom_icon{
+    margin-top: 15px;
+    margin-right: 10px;
+    animation: zoomIn;
+    animation-duration: 800ms;
+}
+/*sports,politics,gaming,relationships,tech div*/
+.convo_sports, .convo_politics, .convo_gaming, .convo_relationships, .convo_tech{
+    margin-right: 10px;
+    margin-top: 50px;
+    float: right;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    border: 1px dashed grey;
+    border-radius: 10px;
+    animation: fadeInLeft;
+    animation-duration: 3s;
+}
+
+.convo_sports_title, .convo_politics_title, .convo_gaming_title, .convo_relationships_title, .convo_tech_title{
+    margin: 10px;
+}
+
+.convo_sports_icon, .convo_politics_icon, .convo_gaming_icon, .convo_relationships_icon, .convo_tech_icon{
+    margin: 10px;
+    text-shadow: .2px .2px 5px white;
+}
+
+/*art,travel,automobile,food div*/
+.convo_art, .convo_travel, .convo_automobile, .convo_food, .convo_nature{
+    margin-left: 10px;
+    margin-top: 50px;
+    float: left;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    border: 1px dashed grey;
+    border-radius: 10px;
+    animation: fadeInLeft;
+    animation-duration: 2s;
+}
+
+.convo_art_title, .convo_travel_title, .convo_automobile_title, .convo_food_title, .convo_nature_title{
+    margin: 10px;
+}
+
+.convo_art_icon, .convo_travel_icon, .convo_automobile_icon, .convo_food_icon, .convo_nature_icon{
+    margin: 10px;
+    text-shadow: .2px .2px 5px white;
+}
+
+.searched_rooms{
+    width: 100%;
+    position: relative;
+    margin-bottom: 50px;
+}

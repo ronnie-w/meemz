@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meemz | Create</title>
+
+    <link rel="icon" href="../static/icons/favicon.ico" />
+    <link rel="apple-touch-icon" href="../static/icons/favicon.ico">
+    <link rel="manifest" href="../static/manifest.json">
+
+    <link rel="stylesheet" href="../static/stylesheets/App.css">
+    <link rel="stylesheet" href="../static/stylesheets/index.css">
+    <link rel="stylesheet" href="../static/stylesheets/BottomNav.css">
+    <link rel="stylesheet" href="../static/stylesheets/Convo.css">
+    <link rel="stylesheet" href="../static/stylesheets/ConvoCreate.css">
+    <link rel="stylesheet" href="../static/stylesheets/ConvoPage.css">
+    <link rel="stylesheet" href="../static/stylesheets/Create.css">
+    <link rel="stylesheet" href="../static/stylesheets/dark.css">
+    <link rel="stylesheet" href="../static/stylesheets/Home.css">
+    <link rel="stylesheet" href="../static/stylesheets/ImageStats.css">
+    <link rel="stylesheet" href="../static/stylesheets/PrivatePosts.css">
+    <link rel="stylesheet" href="../static/stylesheets/Profile.css">
+    <link rel="stylesheet" href="../static/stylesheets/ProfileEdit.css">
+    <link rel="stylesheet" href="../static/stylesheets/Search.css">
+    <link rel="stylesheet" href="../static/stylesheets/Signup.css">
+    <link rel="stylesheet" href="../static/stylesheets/Verify.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.js"></script>
+    <script src="../static/sw.js" defer></script>
+    <script src="../static/sw_init.js" defer></script>
+</head>
+
+<script>
+    axios.post("/fetch_user").then(res =>{
+        if (res.data === null) {
+            window.location.replace("/login");
+        }
+    });
+</script>
+
+<body>
+    <div class="create">
+        <div class="convo_top">
+            <div class="home_title_div">
+                <h2 class="home_title">Meemz</h2>
+                <small class="conversations">creators</small>
+            </div>
+            <!-- <a href="/creator"><i class="fal fa-paint-brush" style="float: right; margin-top: 15px; margin-right: 15px;"></i></a> -->
+        </div>
+        <div class="loader" id="loader">
+            <div id="loader_init" class="loader_init"></div>
+        </div>
+        <p id="loading_info" style="text-align : center;"></p>
+        <label class="image_select_label" for="image_select">
+            <div class="image_select"><strong class="image_select_text">Choose your meemz</strong></div>
+        </label>
+        <p id="err" class="auth_errs"></p>
+        <input id="image_select" type="file" multiple accept="image/*" style="display : none;"
+            onchange="DisplayImages()" />
+        <div id="image_cont" class="image_container"></div>
+        <div class="configurations">
+            <div class="pinned_div">
+                <input id="pinned" class="pinned" type="text" placeholder="Pin a comment" />
+            </div>
+            <div class="tags_div">
+                <input id="tags" class="tags" type="text" placeholder="Add a tag" />
+            </div>
+        </div>
+        <label style="margin : 10px;" class="access_label" for="access">Who can view my posts?</label>
+        <select class="access_selector" id="access" name="access">
+            <option value="Public">Public (Default)</option>
+            <option value="Private">Private (Only visible to your subscribers)</option>
+        </select>
+
+        <button id="upload_btn" class="upload_btn" onclick="Upload()">Upload</button>
+        <p
+            style="font-family: 'Comfortaa', cursive ; font-size : 12px ; color : grey ; margin : 10px ; margin-bottom : 50px;">
+            *Posts violating the Meemz <a href="/terms">terms of service</a> are automatically deleted</p>
+        <div id="bottom_nav_import"></div>
+    </div>
+</body>
+<script>
+    $("#bottom_nav_import").load("bottomNav");
+</script>
+<script src="../static/scripts/create.js"></script>
+
+</html>

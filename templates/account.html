@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meemz | Users</title>
+
+    <link rel="icon" href="../static/icons/favicon.ico" />
+    <link rel="apple-touch-icon" href="../static/icons/favicon.ico">
+    <link rel="manifest" href="../static/manifest.json">
+
+    <link rel="stylesheet" href="../static/stylesheets/App.css">
+    <link rel="stylesheet" href="../static/stylesheets/index.css">
+    <link rel="stylesheet" href="../static/stylesheets/BottomNav.css">
+    <link rel="stylesheet" href="../static/stylesheets/Convo.css">
+    <link rel="stylesheet" href="../static/stylesheets/ConvoCreate.css">
+    <link rel="stylesheet" href="../static/stylesheets/ConvoPage.css">
+    <link rel="stylesheet" href="../static/stylesheets/Create.css">
+    <link rel="stylesheet" href="../static/stylesheets/dark.css">
+    <link rel="stylesheet" href="../static/stylesheets/Home.css">
+    <link rel="stylesheet" href="../static/stylesheets/ImageStats.css">
+    <link rel="stylesheet" href="../static/stylesheets/PrivatePosts.css">
+    <link rel="stylesheet" href="../static/stylesheets/Profile.css">
+    <link rel="stylesheet" href="../static/stylesheets/ProfileEdit.css">
+    <link rel="stylesheet" href="../static/stylesheets/Search.css">
+    <link rel="stylesheet" href="../static/stylesheets/Signup.css">
+    <link rel="stylesheet" href="../static/stylesheets/Verify.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.js"></script>
+    <script src="../static/sw.js" defer></script>
+    <script src="../static/sw_init.js" defer></script>
+</head>
+
+<script>
+    axios.post("/fetch_user").then(res =>{
+        if (res.data === null) {
+            window.location.replace("/login");
+        }
+    });
+</script>
+
+<body>
+    <div class="profile">
+        <div class="profile_top_bar" id="profile_top_bar"></div>
+        <div class="profile_details">
+            <div class="profile_img_div">
+                <img style="border : 1px solid grey;" id="profile_img" class="profile_img" alt="profile_img" />
+            </div>
+            <p class="profile_username"></p>
+        </div>
+        <div id="bio" style="margin-top : 10px; display : flex; justify-content : center; align-items : center;">
+            <div
+                style="background-color : transparent; border-radius : 20px; box-shadow : .5px .5px 7px grey; width : 90%; display : flex; justify-content : center; align-content : center;">
+                <p class="users_bio"
+                    style="font-family: 'Comfortaa', cursive; color : wheat; margin : 7px; font-size : 12px;"></p>
+            </div>
+        </div>
+        <div class="profile_subs">
+            <small id="profile_subs"
+                style="color : white; margin-top : 5px; font-family: 'Comfortaa', cursive;"></small>
+        </div>
+        <div class="profile_config_main" id="profile_config_main">
+            <i class="posts far fa-images" style="color : wheat;" onclick="ToggleConfig('far fa-images')"></i>
+            <i class="posts far fa-comment-alt" onclick="ToggleConfig('far fa-comment-alt')"></i>
+        </div>
+        <center>
+            <div class="posts_num">
+                <small id="posts" class="posts_num_txt"></small>
+            </div>
+        </center>
+        <div id="profile_content" class="profile_content">
+            <div class="my_upload">
+                <div id="my_upload"></div>
+            </div>
+
+            <div id="searched_rooms"></div>
+        </div>
+
+        <div id="bottom_nav_import"></div>
+    </div>
+</body>
+<script src="../static/scripts/account.js"></script>
+</html>

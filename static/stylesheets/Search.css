@@ -1,0 +1,67 @@
+.search_top_bar{
+    background-color: #121212;
+    position: fixed;
+    width: 100%;
+}
+
+.search_input_div{
+    border: 1px dashed grey;
+    border-radius: 6px;
+    margin: 10px;
+    width: fit-content;
+}
+
+.search_input{
+    background-color: rgba(0, 0, 0, 0);
+    margin: 0;
+}
+
+.search_icon{
+    float: right;
+    margin-top: 10px;
+    margin-right: 5px;
+}
+
+.search_spinner{
+    float: right;
+    margin-top: 18px;
+    margin-right: 5px;
+    display: none;
+}
+
+.search_options{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 60px;
+    position: fixed;
+    width: 100%;
+    background-color: #121212;
+    margin-bottom: 10px;
+}
+
+.search_meemz{
+    margin-bottom: 7px;
+    background-color: grey;
+    display: grid;
+    place-items: center;
+    border-radius: 20px;
+}
+
+.search_meemz:hover{
+    cursor: pointer;
+}
+
+.meemz_txt{
+    margin: 10px;
+    background-color: grey;
+    color: white;
+    border-radius: 6px;
+}
+
+.meemz_txt:hover{
+    cursor: pointer;
+}
+
+.meemz_results, .tags_results{
+    padding-top: 10px;
+}

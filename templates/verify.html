@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meemz | Verify</title>
+
+    <link rel="icon" href="../static/icons/favicon.ico" />
+    <link rel="apple-touch-icon" href="../static/icons/favicon.ico">
+    <link rel="manifest" href="../static/manifest.json">
+
+    <link rel="stylesheet" href="../static/stylesheets/App.css">
+    <link rel="stylesheet" href="../static/stylesheets/index.css">
+    <link rel="stylesheet" href="../static/stylesheets/BottomNav.css">
+    <link rel="stylesheet" href="../static/stylesheets/Convo.css">
+    <link rel="stylesheet" href="../static/stylesheets/ConvoCreate.css">
+    <link rel="stylesheet" href="../static/stylesheets/ConvoPage.css">
+    <link rel="stylesheet" href="../static/stylesheets/Create.css">
+    <link rel="stylesheet" href="../static/stylesheets/dark.css">
+    <link rel="stylesheet" href="../static/stylesheets/Home.css">
+    <link rel="stylesheet" href="../static/stylesheets/ImageStats.css">
+    <link rel="stylesheet" href="../static/stylesheets/PrivatePosts.css">
+    <link rel="stylesheet" href="../static/stylesheets/Profile.css">
+    <link rel="stylesheet" href="../static/stylesheets/ProfileEdit.css">
+    <link rel="stylesheet" href="../static/stylesheets/Search.css">
+    <link rel="stylesheet" href="../static/stylesheets/Signup.css">
+    <link rel="stylesheet" href="../static/stylesheets/Verify.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.js"></script>
+    <script src="../static/sw.js" defer></script>
+    <script src="../static/sw_init.js" defer></script>
+</head>
+
+<body>
+    <div class="verify">
+        <div class="verify_topbar">
+            <h2 class="verify_title">Meemz</h2>
+            <a href="/signup"><button id="wrong_mail" class="wrong_mail">Wrong email?</button></a>
+        </div>
+        <div class="verify_div">
+            <p>A verification code was sent to:</p>
+            <p id="verify_msg" class="verify_msg"></p>
+            <br />
+            <p id="err_msg" class="err_msg"></p>
+            <div class="verify_input_div"><input id="verify_code" type="text" placeholder="Enter the code here"
+                    class="verify_input" /></div>
+            <div class="verify_btn_div">
+                <button id="verify_now" class="verify_btn">Verify now</button>
+                <p>or</p>
+                <a href="/"><button class="verify_btn">Verify later</button></a>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../static/scripts/verify.js"></script>
+
+</html>

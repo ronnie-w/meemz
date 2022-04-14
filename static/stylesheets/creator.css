@@ -1,0 +1,19 @@
+.meme-generator input {
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  margin-left: 10px;
+}
+
+#meme {
+  display: none;
+}
+
+#imageFileInput {
+  color: rgb(0, 0, 255);
+}
+
+.box {
+  background-color: #121212;
+  box-shadow: .2px .2px 5px grey;
+}

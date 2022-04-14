@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meemz | Convo</title>
+
+    <link rel="icon" href="../static/icons/favicon.ico" />
+    <link rel="apple-touch-icon" href="../static/icons/favicon.ico">
+    <link rel="manifest" href="../static/manifest.json">
+
+    <link rel="stylesheet" href="../static/stylesheets/App.css">
+    <link rel="stylesheet" href="../static/stylesheets/index.css">
+    <link rel="stylesheet" href="../static/stylesheets/BottomNav.css">
+    <link rel="stylesheet" href="../static/stylesheets/Convo.css">
+    <link rel="stylesheet" href="../static/stylesheets/ConvoCreate.css">
+    <link rel="stylesheet" href="../static/stylesheets/ConvoPage.css">
+    <link rel="stylesheet" href="../static/stylesheets/Create.css">
+    <link rel="stylesheet" href="../static/stylesheets/dark.css">
+    <link rel="stylesheet" href="../static/stylesheets/Home.css">
+    <link rel="stylesheet" href="../static/stylesheets/ImageStats.css">
+    <link rel="stylesheet" href="../static/stylesheets/PrivatePosts.css">
+    <link rel="stylesheet" href="../static/stylesheets/Profile.css">
+    <link rel="stylesheet" href="../static/stylesheets/ProfileEdit.css">
+    <link rel="stylesheet" href="../static/stylesheets/Search.css">
+    <link rel="stylesheet" href="../static/stylesheets/Signup.css">
+    <link rel="stylesheet" href="../static/stylesheets/Verify.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.js"></script>
+    <script src="../static/sw.js" defer></script>
+    <script src="../static/sw_init.js" defer></script>
+</head>
+
+<script>
+    axios.post("/fetch_user").then(res =>{
+        if (res.data === null) {
+            window.location.replace("/login");
+        }
+    });
+</script>
+
+<body>
+    <div class="convo">
+        <div class="convo_top">
+            <div class="home_title_div">
+                <h2 class="home_title">Meemz</h2>
+                <small class="conversations">conversations</small>
+            </div>
+            <center>
+                <p style="font-size : 12px ; color : wheat">*Share Meemz with
+                    your audience</p>
+                <a href="/convo_create/new">
+                    <div class="convo_create">
+                        <strong class="convo_create_title">Start a conversation</strong>
+                        <i class="convo_create_icon fad fa-comment-lines"></i>
+                    </div>
+                </a>
+            </center>
+            <h3 class="browse_topics" id="browse_topics" style="display : none;">Topics you might like</h3>
+        </div>
+
+        <center>
+            <div class="convo_custom">
+                <input id="convo_search_rooms" class="convo_custom_title" placeholder="Search rooms"
+                    style="background-color : #121212; margin : 5px;" oninput="Loader()" />
+                <i class="convo_custom_icon fal fa-search"></i>
+            </div>
+        </center>
+
+        <div class="results_center" style="display : flex ; justify-content : center ; align-items : center;">
+            <div id="searched_rooms"
+                style="margin-top : 20px ; display : none ; flex-wrap : wrap ; justify-content : space-between ; margin-bottom : 50px;">
+            </div>
+        </div>
+
+        <div id="convo_topics" class="convo_topics">
+            <a href="/convo_init/music">
+                <div class="convo_music">
+                    <i class="convo_music_icon fal fa-waveform"></i>
+                    <p class="convo_music_title">Music</p>
+                </div>
+            </a>
+
+            <a href="/convo_init/sports">
+                <div class="convo_sports">
+                    <i class="convo_sports_icon fal fa-volleyball-ball"></i>
+                    <p class="convo_sports_title">Sports</p>
+                </div>
+            </a>
+
+            <a href="/convo_init/art">
+                <div class="convo_art">
+                    <i class="convo_art_icon fal fa-theater-masks"></i>
+                    <p class="convo_art_title">Art and Culture</p>
+                </div>
+            </a>
+
+            <a href="/convo_init/politics">
+                <div class="convo_politics">
+                    <i class="convo_politics_icon fal fa-landmark"></i>
+                    <p class="convo_politics_title">Politics</p>
+                </div>
+            </a>
+
+            <a href="/convo_init/travel">
+                <div class="convo_travel">
+                    <i class="convo_travel_icon fal fa-map"></i>
+                    <p class="convo_travel_title">Travelling</p>
+                </div>
+            </a>
+
+            <a href="/convo_init/gaming">
+                <div class="convo_gaming">
+                    <i class="convo_gaming_icon fal fa-gamepad"></i>
+                    <p class="convo_gaming_title">Gaming</p>
+                </div>
+            </a>
+
+            <a href="/convo_init/automobile">
+                <div class="convo_automobile">
+                    <i class="convo_automobile_icon fal fa-truck-monster"></i>
+                    <p class="convo_automobile_title">Automobile</p>
+                </div>
+            </a>
+
+            <a href="/convo_init/relationships">
+                <div class="convo_relationships">
+                    <i class="convo_relationships_icon fal fa-heart-broken"></i>
+                    <p class="convo_relationships_title">Relationships</p>
+                </div>
+            </a>
+
+            <a href="/convo_init/food">
+                <div class="convo_food">
+                    <i class="convo_food_icon fal fa-pepper-hot"></i>
+                    <p class="convo_food_title">Food</p>
+                </div>
+            </a>
+
+            <a href="/convo_init/technology">
+                <div class="convo_tech">
+                    <i class="convo_tech_icon fal fa-robot"></i>
+                    <p class="convo_tech_title">Technology</p>
+                </div>
+            </a>
+
+            <a href="/convo_init/nature">
+                <div class="convo_nature" style="margin-bottom : 50px;">
+                    <i class="convo_nature_icon fal fa-flower-tulip"></i>
+                    <p class="convo_nature_title">Nature</p>
+                </div>
+            </a>
+        </div>
+        <div id="bottom_nav_import"></div>
+    </div>
+</body>
+<script>
+    $("#bottom_nav_import").load("bottomNav");
+</script>
+<script src="../static/scripts/convo.js"></script>
+
+</html>
