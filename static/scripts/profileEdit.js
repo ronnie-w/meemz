@@ -29,7 +29,7 @@ axios.post("/fetch_user").then(res => {
 
 function error(msg) {
     auth_errs.style.display = "block";
-    auth_errs.innerHTML = `<small style=backgroundColor : "transparent" , fontFamily : "'Maven Pro', sans-serif" , color : "red"}}>${msg}</small>`;
+    auth_errs.innerHTML = `<small style="background-color : transparent ; font-family : 'Maven Pro', sans-serif ; color : red;">${msg}</small>`;
     auth_errs.style.animation = "headShake";
     auth_errs.style.animationDuration = "800ms";
 }
@@ -43,6 +43,8 @@ function Change() {
     fileReader.readAsDataURL(profile_img_select.files[0]);
 
     if (profile_img_select.files.length === 1) {
+        auth_errs.innerHTML = `<center><i id="spinner" class="fal fa-spinner-third fa-spin" style="color : white"></i></center>`;
+
         let formData = new FormData();
         formData.append("profile_img", profile_img_select.files[0]);
         axios.post("/profile_img_upload", formData, {
@@ -51,7 +53,7 @@ function Change() {
             }
         }).then(res => {
             if (res.data !== null) {
-                UpdateDb(res.data)
+                UpdateDb(res.data);
             }
         });
 
@@ -63,6 +65,12 @@ function Change() {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
+            }).then(_ =>{
+                $(auth_errs).empty();
+                auth_errs.innerHTML = "<small style='color : white; background-color : transparent ; font-family : 'Maven Pro', sans-serif ;'>Profile picture updated</small>"
+                setTimeout(() => {
+                    $(auth_errs).empty();
+                }, 2000);
             });
         }
     } else {

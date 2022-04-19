@@ -3,6 +3,7 @@ const canvas = document.querySelector("#meme");
 const topTextInput = document.querySelector("#topTextInput");
 const bottomTextInput = document.querySelector("#bottomTextInput");
 const textColorInput = document.querySelector("#textColorInput");
+var canvasTxt = window.canvasTxt;
 
 let image;
 
@@ -11,11 +12,6 @@ imageFileInput.addEventListener("change", (e) => {
 
   image = new Image();
   image.src = imageDataUrl;
-  image.style.width = "400px";
-  image.style.maxHeight = "500px";
-  canvas.style.display = "block";
-  $(canvas).attr("width", "400px");
-  $(canvas).attr("height", image.style.getPropertyValue("height"));
 
   image.addEventListener(
     "load",
@@ -34,7 +30,6 @@ imageFileInput.addEventListener("change", (e) => {
 
 topTextInput.addEventListener("input", () => {
   updateMemeCanvas(canvas, image, topTextInput.value, bottomTextInput.value, textColorInput.value);
-  console.log(image);
 });
 
 bottomTextInput.addEventListener("input", () => {
@@ -49,7 +44,7 @@ function updateMemeCanvas(canvas, image, topText, bottomText, textColor) {
   const ctx = canvas.getContext("2d");
   const width = image.width;
   const height = image.height;
-  const fontSize = Math.floor(width / 15);
+  const fontSize = Math.floor(width / 20);
   const yOffset = height / 25;
 
   // Update canvas background
@@ -59,19 +54,51 @@ function updateMemeCanvas(canvas, image, topText, bottomText, textColor) {
 
   // Prepare text
   ctx.strokeStyle = "black";
-  ctx.lineWidth = Math.floor(fontSize / 10);
   ctx.fillStyle = textColor;
-  ctx.textAlign = "center";
   ctx.lineJoin = "round";
   ctx.font = `${fontSize}px sans-serif`;
 
-  // Add top text
-  ctx.textBaseline = "top";
-  ctx.strokeText(topText, width / 2, yOffset);
-  ctx.fillText(topText, width / 2, yOffset);
 
-  // Add bottom text
-  ctx.textBaseline = "bottom";
-  ctx.strokeText(bottomText, width / 2, height - yOffset);
-  ctx.fillText(bottomText, width / 2, height - yOffset);
+// Custom function for wrapping text
+const wrapText = function(ctx, text, x, y, maxWidth, lineHeight) {
+
+    let words = text.split(' ');
+    let line = '';
+    let testLine = '';
+    let lineArray = []; 
+
+    for(var n = 0; n < words.length; n++) {
+        testLine += `${words[n]} `;
+        let metrics = ctx.measureText(testLine);
+        let testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+            lineArray.push([line, x, y]);
+            y += lineHeight;
+            line = `${words[n]} `;
+            testLine = `${words[n]} `;
+        }
+        else {
+            line += `${words[n]} `;
+        }
+        if(n === words.length - 1) {
+            lineArray.push([line, x, y]);
+        }
+    }
+    return lineArray;
+}
+
+
+// Add top text
+ctx.textBaseline = "top";
+let wrappedToptext = wrapText(ctx, topText, 20, yOffset + 20, width,80);
+wrappedToptext.forEach(function(item) {
+  ctx.fillText(item[0], item[1], item[2]); 
+});
+
+// Add bottom text
+ctx.textBaseline = "bottom";
+let wrappedBottomtext = wrapText(ctx, bottomText, 20, height - (yOffset + 60), width,80);
+wrappedBottomtext.forEach(function(item) {
+  ctx.fillText(item[0], item[1], item[2]); 
+});
 }

@@ -97,3 +97,15 @@ func Notifications(rw http.ResponseWriter, r *http.Request) {
 func ForgotPassword(rw http.ResponseWriter, r *http.Request) {
 	Parser(rw, "templates/forgotPassword.html")
 }
+
+func Manifest(rw http.ResponseWriter, r *http.Request)  {
+	http.ServeFile(rw, r, "manifest.json")
+}
+
+func ServiceWorkerInit(rw http.ResponseWriter, r *http.Request)  {
+	http.ServeFile(rw, r, "sw_init.js")
+}
+
+func ServiceWorker(rw http.ResponseWriter, r *http.Request)  {
+	http.ServeFile(rw, r, "sw.js")
+}

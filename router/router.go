@@ -40,6 +40,10 @@ func Routes() *mux.Router {
 		"/image_stats/{img_name}":  parser.ImageStats,
 		"/convo_create/{room}":     parser.ConvoCreate,
 		"/convo_init/{topic}":      parser.ConvoInit,
+
+		"/manifest.json": parser.Manifest,
+		"/sw_init.js": parser.ServiceWorkerInit,
+		"/sw.js": parser.ServiceWorker,
 	}
 
 	end_points := map[string]func(http.ResponseWriter, *http.Request){

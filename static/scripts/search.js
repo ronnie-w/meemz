@@ -48,8 +48,8 @@ function FetchRequests() {
                         `<div style="margin-bottom : 50px ; border-right : 1px solid grey ; border-left : 1px solid grey;" id='meemz_content_main_div ${c.ImgName}'>
                         <div class="uploader_details">
                             <div onclick="Redirect('${c.Username}')">
-                                <img class="uploader_profile" alt="uploader_profile" src="/static/profile-pictures/${c.ProfileImg}" loading="lazy" />
-                                <p class="uploader_username">${c.Username}</p>
+                            <img class="uploader_profile ${c.ProfileImg}" alt="uploader_profile" loading="lazy" />
+                            <p class="uploader_username">${c.Username}</p>
                             </div>
                         </div>
                         <div class="loaded_img_div ${c.ImgName}" style="height : 500px ; filter : blur(5px) ; background-color : #121212;">
@@ -120,6 +120,8 @@ function FetchRequests() {
 
                     let img = document.getElementsByClassName(`image ${c.ImgName}`)[0];
                     let img_div = document.getElementsByClassName(`loaded_img_div ${c.ImgName}`)[0];
+                    let uploader_profile = document.getElementsByClassName(`uploader_profile ${c.ProfileImg}`)[0];
+
                     let observer = new IntersectionObserver(entries => {
                         entries.forEach(entry => {
                             if (entry.isIntersecting === true) {
@@ -143,6 +145,15 @@ function FetchRequests() {
                         threshold: 0.5
                     });
                     observer.observe(img_div);
+
+                    let profile_observer = new IntersectionObserver(entries => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting === true) {
+                                uploader_profile.setAttribute("src", `/static/profile-pictures/${c.ProfileImg}`);
+                            }
+                        });
+                    }, { threshold : 0.5 });
+                    profile_observer.observe(uploader_profile);
                 });
             }
             spinner.style.display = "none";
@@ -210,7 +221,7 @@ function FetchRequests() {
                         `<div style="margin-bottom : 50px ; border-right : 1px solid grey ; border-left : 1px solid grey;" id='meemz_content_main_div ${c.ImgName}'>
                         <div class="uploader_details">
                             <div onclick="Redirect('${c.Username}')">
-                                <img class="uploader_profile" alt="uploader_profile" src="/static/profile-pictures/${c.ProfileImg}" loading="lazy" />
+                                <img class="uploader_profile ${c.ProfileImg}" alt="uploader_profile" loading="lazy" />
                                 <p class="uploader_username">${c.Username}</p>
                             </div>
                         </div>
@@ -282,6 +293,8 @@ function FetchRequests() {
 
                     let img = document.getElementsByClassName(`image ${c.ImgName}`)[0];
                     let img_div = document.getElementsByClassName(`loaded_img_div ${c.ImgName}`)[0];
+                    let uploader_profile = document.getElementsByClassName(`uploader_profile ${c.ProfileImg}`)[0];
+
                     let observer = new IntersectionObserver(entries => {
                         entries.forEach(entry => {
                             if (entry.isIntersecting === true) {
@@ -305,6 +318,15 @@ function FetchRequests() {
                         threshold: 0.5
                     });
                     observer.observe(img_div);
+
+                    let profile_observer = new IntersectionObserver(entries => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting === true) {
+                                uploader_profile.setAttribute("src", `/static/profile-pictures/${c.ProfileImg}`);
+                            }
+                        });
+                    }, { threshold : 0.5 });
+                    profile_observer.observe(uploader_profile);
                 });
             }
         }).catch((err) => {

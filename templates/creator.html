@@ -37,8 +37,8 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.js"></script>
-  <script src="../static/sw.js" defer></script>
-  <script src="../static/sw_init.js" defer></script>
+  <script src="/sw.js" defer></script>
+  <script src="/sw_init.js" defer></script>
 </head>
 
 <script>
@@ -50,33 +50,21 @@
 </script>
 
 <body>
-  <div class="convo_top">
-    <div class="home_title_div">
-      <h2 class="home_title">Meemz</h2>
-      <small class="conversations">creators</small>
-    </div>
-  </div>
-
-  <div>
-    <label class="image_select_label" for="imageFileInput"
-      style="display: flex; align-items: center; justify-content: center; padding-top: 50px;">
-      <div class="image_select"><strong class="image_select_text">Select an image</strong></div>
-    </label>
-  </div>
-
   <div class="meme-generator">
-
+    <label>Select an Image</label>
+    <input type="file" id="imageFileInput">
+  
+    <label>Top Text</label>
+    <input type="text" class="box" id="topTextInput">
+  
+    <label>Bottom Text</label>
+    <input type="text" class="box" id="bottomTextInput">
+  
+    <label>Text color</label>
+    <input type="text" class="box" id="textColorInput">
+  
     <canvas id="meme"></canvas>
-
-    <input type="file" id="imageFileInput" style="display: none;">
-
-    <input type="text" class="box" id="topTextInput" placeholder="Top Text" style="margin-top: 20px;">
-
-    <input type="text" class="box" id="bottomTextInput" placeholder="Bottom Text">
-
-    <input type="text" class="box" id="textColorInput" placeholder="Text color">
-
-
+  
   </div>
 </body>
 <script src="../static/scripts/creator.js"></script>
