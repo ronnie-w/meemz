@@ -9,7 +9,7 @@
 
     <link rel="icon" href="../static/icons/favicon.ico" />
     <link rel="apple-touch-icon" href="../static/icons/favicon.ico">
-    <link rel="manifest" href="../static/manifest.json">
+    <link rel="manifest" href="/manifest.json">
 
     <link rel="stylesheet" href="../static/stylesheets/App.css">
     <link rel="stylesheet" href="../static/stylesheets/index.css">
@@ -31,15 +31,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
 
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
     <script src="/sw.js" defer></script>
     <script src="/sw_init.js" defer></script>
 </head>
 
 <script>
-    axios.post("/fetch_user").then(res =>{
+    axios.post("/fetch_user").then(res => {
         if (res.data === null) {
             window.location.replace("/login");
         }
@@ -59,12 +59,19 @@
             <div id="loader_init" class="loader_init"></div>
         </div>
         <p id="loading_info" style="text-align : center;"></p>
-        <label class="image_select_label" for="image_select">
-            <div class="image_select"><strong class="image_select_text">Choose your meemz</strong></div>
-        </label>
+        <div class="select_labels">
+            <label class="image_select_label" for="image_select">
+                <div class="image_select_label_icon"><i class="fad fa-clone"></i></div>
+            </label>
+            <label class="image_select_label" for="video_select">
+                <div class="video_select_label_icon"><i class="fad fa-play"></i></div>
+            </label>
+        </div>
         <p id="err" class="auth_errs"></p>
         <input id="image_select" type="file" multiple accept="image/*" style="display : none;"
             onchange="DisplayImages()" />
+        <input id="video_select" type="file" multiple accept="video/*" style="display : none;"
+            onchange="DisplayVideos()" />
         <div id="image_cont" class="image_container"></div>
         <div class="configurations">
             <div class="pinned_div">
@@ -75,7 +82,8 @@
             </div>
         </div>
         <label style="margin : 10px;" class="access_label" for="access">Who can view my posts?</label>
-        <select class="access_selector" id="access" name="access">
+        <select class="access_selector" id="access" name="access"
+            style="color: #121212; background-color: grey; box-shadow: .2px .2px 5px grey;">
             <option value="Public">Public (Default)</option>
             <option value="Private">Private (Only visible to your subscribers)</option>
         </select>

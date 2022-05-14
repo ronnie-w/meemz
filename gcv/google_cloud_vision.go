@@ -11,6 +11,9 @@ import (
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
 	"google.golang.org/api/vision/v1"
+
+	video "cloud.google.com/go/videointelligence/apiv1"
+	videopb "google.golang.org/genproto/googleapis/cloud/videointelligence/v1"
 )
 
 func DefaultDialer(file_dir, type_req string) *vision.BatchAnnotateImagesResponse {
@@ -168,4 +171,45 @@ func SafeSearchOcr(file_dir string) (string, string, string) {
 
 	log.Println("safety", "{`Adult`: "+adult+", `Medical`: "+medical+", `Racy`: "+racy+", `Spoof`: "+spoof+", `Violence`: "+violence+"}")
 	return "{`Adult`: " + adult + ", `Medical`: " + medical + ", `Racy`: " + racy + ", `Spoof`: " + spoof + ", `Violence`: " + violence + "}", adult, violence
+}
+
+
+func ExplicitVideoContent(file_dir string) bool {
+	var IsExplicit bool = false
+
+	ctx := context.Background()
+	client, err := video.NewClient(ctx)
+	if err != nil {
+		log.Println(err)
+	}
+
+	defer client.Close()
+
+	file, err := ioutil.ReadFile(file_dir)
+	if err != nil {
+		log.Println(err)
+	}
+
+	op, err := client.AnnotateVideo(ctx, &videopb.AnnotateVideoRequest{
+		InputContent: file,
+		Features:     []videopb.Feature{videopb.Feature_EXPLICIT_CONTENT_DETECTION},
+	})
+	if err != nil {
+		log.Println(err)
+	}
+
+	resp, err := op.Wait(ctx)
+	if err != nil {
+		log.Println(err)
+	}
+
+	result := resp.AnnotationResults[0].ExplicitAnnotation
+
+	for _, frame := range result.Frames {
+			if  frame.PornographyLikelihood.String() == "VERY_LIKELY" || frame.PornographyLikelihood.String() == "LIKELY" {
+				IsExplicit = true
+			}
+	}
+
+	return IsExplicit
 }

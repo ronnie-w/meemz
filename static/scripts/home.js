@@ -5,98 +5,103 @@ const notify = document.getElementById("notify");
 let main_content_div = document.getElementsByClassName("content_div")[0];
 let loader = document.getElementsByClassName("loading_animation")[0];
 
+let index = 0, content;
+
 window.setTimeout(() => {
     loader.style.display = "none";
     main_content_div.style.display = "grid";
-}, 1000);
-
-let content;
+}, 500);
 
 axios.post("/notifications_go").then(res => {
     if (res.data !== null) {
-        notify.style.color = "wheat";
+        $(notify).removeClass("fal");
+        $(notify).addClass("fas");
         notify.style.animation = "wobble";
         notify.style.animationDuration = "1000ms";
     }
 });
 
+function DisplayContent(){
+
+}
+
 
 axios.post("/main_content").then(res => {
     content = res.data;
-    
+
     content.forEach(c => {
         $(".content_div").prepend(
-            `<div style="margin-bottom : 50px ; border-right : 1px solid grey ; border-left : 1px solid grey;" id='meemz_content_main_div ${c.ImgName}'>
-            <div class="uploader_details">
-                <div onclick="Redirect('${c.Username}')">
-                    <img class="uploader_profile ${c.ProfileImg}" alt="uploader_profile" loading="lazy" />
-                    <p class="uploader_username">${c.Username}</p>
-                </div>
-            </div>
-            <div class="loaded_img_div ${c.ImgName}" style="height : 500px ; filter : blur(5px) ; background-color : #121212;">
-            </div>
-            <img onload="FixHeight('${c.ImgName}')" alt="meemz" class='image ${c.ImgName}' id='image ${c.ImgName}' style="opacity : 0;" loading="lazy"/>
-            <div class="reaction_icons_div">
-                <i class='${c.Reaction1} ${c.ImgName} reaction' onclick="ReactionOnclick('fa-grin-tears' , '${c.ImgName}')" ></i>
-                <i class='${c.Reaction2} ${c.ImgName} reaction' onclick="ReactionOnclick('fa-grin-tongue-squint' , '${c.ImgName}')" ></i>
-                <i class='${c.Reaction3} ${c.ImgName} reaction' onclick="ReactionOnclick('fa-meh' , '${c.ImgName}')" ></i>
-                <i class='${c.Reaction4} ${c.ImgName} reaction' onclick="ReactionOnclick('fa-sad-tear' , '${c.ImgName}')" ></i>
-                <i class='${c.Reaction5} ${c.ImgName} reaction' onclick="ReactionOnclick('fa-angry' , '${c.ImgName}')" ></i>
-            </div>
-            <center>
-            <div class="actions_icons_div">
-                <a href="/static/uploads/${c.ImgName}" download><i class="far fa-arrow-to-bottom"></i></a>
-                <i class="${c.ImgName} far fa-share-alt share" onclick="javascript:PopupToggle('share_popup' , '${c.ImgName}' , 'fa-share-alt' , 'share')" ></i>
-                <i class="${c.ImgName} far fa-comment comment" onclick="javascript:PopupToggle('comment_popup' , '${c.ImgName}' , 'fa-comment' , 'comment'); FetchComments('${c.ImgName}' , '${c.PComment}');" ></i>
-                <i class="${c.ImgName} far fa-flag-alt report" onclick="javascript:PopupToggle('report_popup' , '${c.ImgName}' , 'fa-flag-alt' , 'report')"></i>
-    
-            </div>
-            </center>
-    
-            <center>
-            <div class='action_popups report_popup ${c.ImgName}' style="display : none ; background-color : rgb(141, 0, 0) ; margin-top : 10px ; width : 90% ; border-radius : 10px ; box-shadow : .5px .5px 7px rgb(141, 0, 0);">
-                <small style="color : white ; background-color : rgb(0 , 0, 0, 0);">Why do you want to report this post ?</small>
-                <select class="report_selector ${c.ImgName}" name="access" id="access" style="width : 90% ; color : red;">
-                    <option value="Spam">Report spam</option>
-                    <option value="Seen before">Seen this more than once</option>
-                    <option value="Not interested">Not interested</option>
-                    <option value="Bad quality">Bad quality image or content</option>
-                    <option value="Plagiarism">Plagiarism</option>
-                    <option value="Adult">Adult content</option>
-                </select>
-                
-                <button style="width : 115px ; background-color : #121212 ; color : red ; font-size : 12px;" onclick="Report('${c.ImgName}')" >Report</button>
-            </div>
-            </center>
-    
-            <div style="display : flex ; justify-content : center ; align-items : center ; margin-top : 10px;">
-                <div class='action_popups comment_popup ${c.ImgName}' style="display : none ; background-color : #ffd93b ; margin-top : 10px ; width : 90% ; border-radius : 10px ; box-shadow : .5px .5px 7px #ffd93b;">
-                <div class='comment_popup_pin ${c.ImgName}' style="background-color : transparent ; margin-top : 5px ; width : 100% ; display : flex ; justify-content : center ; align-content : center;"></div>
-                <div style="background-color : transparent ; margin-top : 5px ; width : 100% ; max-height : 200px ; overflow-y : scroll;">
-                    <div class='comment_mycomments ${c.ImgName}' style="background-color : transparent ; width : 100% ; display : flex ; flex-direction : column;"></div>
-                    <div class='comment_ocomments ${c.ImgName}' style="background-color : transparent ; width : 100% ; display : flex ; flex-direction : column;"></div>
-                </div>
-                <div class='comment_input_div'>
-                    <input type="text" class='comment_input ${c.ImgName}' placeholder="Comment..." />
-                    <div class='comment_send ${c.ImgName}' onclick="CommentPost('${c.ImgName}' , '${c.PComment}')">
-                        <i class='fal fa-paper-plane ${c.ImgName}' style="color : #121212 ; margin : 10px ; font-size : 15px;"></i>
-                    </div>
-                </div>
-                </div>
-            </div>
-    
-            <center>
-                <div class='action_popups share_popup ${c.ImgName}' style="display : none ; background-color : white ; margin-top : 10px ; width : 90% ; border-radius : 10px ; box-shadow : .5px .5px 7px white;">
-                    <small style="color : #121212 ; background-color : transparent ; font-family: 'Maven Pro', sans-serif;">Share on...</small>
-                    <div class="share_icons" style="background-color : transparent ; width : 100% ; display : flex ; justify-content : space-around ; margin-top : 10px ; margin-bottom : 10px;">
-                        <a href='https://twitter.com/intent/tweet?url=https://meemz.gq/public_stats/${c.ImgName}&text=Memes I found on the internet&hashtags=Meemz' style="background-color : transparent;"><i class="fab fa-twitter" style="color : #121212;"></i></a>
-                        <a href='https://reddit.com/submit?url=https://meemz.gq/public_stats/${c.ImgName}&title=Memes I found on the internet' style="background-color : transparent;"><i class="fab fa-reddit" style="color : #121212;"></i></a>
-                        <a href='https://api.whatsapp.com/send?text=Memes I found on the internet%20https://meemz.gq/public_stats/${c.ImgName}' style="background-color : transparent;"><i class="fab fa-whatsapp" style="color : #121212;"></i></a>
-                    </div>
-                </div>
-            </center>
-    
-        </div>`
+          `<div style="margin-bottom : 50px ; border-right : 1px solid grey ; border-left : 1px solid grey;" id='meemz_content_main_div ${c.ImgName}'>
+          <div class="uploader_details">
+              <div onclick="Redirect('${c.Username}')">
+                  <img class="uploader_profile ${c.ProfileImg}" alt="uploader_profile" loading="lazy" />
+                  <p class="uploader_username">${c.Username}</p>
+              </div>
+          </div>
+          <div class="loaded_img_div ${c.ImgName}" style="height : 500px ; filter : blur(5px) ; background-color : rgb(236, 235, 235);">
+          </div>
+          <img onload="FixHeight('${c.ImgName}')" alt="meemz" class='image ${c.ImgName}' id='image ${c.ImgName}' style="opacity : 0;" loading="lazy"/>
+          <div class="reaction_icons_div">
+              <i class='${c.Reaction1} ${c.ImgName} reaction' onclick="ReactionOnclick('fa-grin-tears' , '${c.ImgName}')" ></i>
+              <i class='${c.Reaction2} ${c.ImgName} reaction' onclick="ReactionOnclick('fa-grin-tongue-squint' , '${c.ImgName}')" ></i>
+              <i class='${c.Reaction3} ${c.ImgName} reaction' onclick="ReactionOnclick('fa-meh' , '${c.ImgName}')" ></i>
+              <i class='${c.Reaction4} ${c.ImgName} reaction' onclick="ReactionOnclick('fa-sad-tear' , '${c.ImgName}')" ></i>
+              <i class='${c.Reaction5} ${c.ImgName} reaction' onclick="ReactionOnclick('fa-angry' , '${c.ImgName}')" ></i>
+          </div>
+          <center>
+          <div class="actions_icons_div">
+              <a href="/static/uploads/${c.ImgName}" download><i class="far fa-arrow-to-bottom"></i></a>
+              <i class="${c.ImgName} far fa-share-alt share" onclick="javascript:PopupToggle('share_popup' , '${c.ImgName}' , 'fa-share-alt' , 'share')" ></i>
+              <i class="${c.ImgName} far fa-comment comment" onclick="javascript:PopupToggle('comment_popup' , '${c.ImgName}' , 'fa-comment' , 'comment'); FetchComments('${c.ImgName}' , '${c.PComment}');" ></i>
+              <i class="${c.ImgName} far fa-flag-alt report" onclick="javascript:PopupToggle('report_popup' , '${c.ImgName}' , 'fa-flag-alt' , 'report')"></i>
+
+          </div>
+          </center>
+
+          <center>
+          <div class='action_popups report_popup ${c.ImgName}' style="display : none ; background-color : rgb(141, 0, 0) ; margin-top : 10px ; width : 90% ; border-radius : 10px ; box-shadow : .5px .5px 7px rgb(141, 0, 0);">
+              <small style="color : rgb(236, 235, 235) ; background-color : rgb(0 , 0, 0, 0);">Why do you want to report this post ?</small>
+              <select class="report_selector ${c.ImgName}" name="access" id="access" style="width : 90% ; color : red;">
+                  <option value="Spam">Report spam</option>
+                  <option value="Seen before">Seen this more than once</option>
+                  <option value="Not interested">Not interested</option>
+                  <option value="Bad quality">Bad quality image or content</option>
+                  <option value="Plagiarism">Plagiarism</option>
+                  <option value="Adult">Adult content</option>
+              </select>
+
+              <button style="width : 115px ; background-color : #121212 ; color : red ; font-size : 12px;" onclick="Report('${c.ImgName}')" >Report</button>
+          </div>
+          </center>
+
+          <div style="display : flex ; justify-content : center ; align-items : center ; margin-top : 10px;">
+              <div class='action_popups comment_popup ${c.ImgName}' style="display : none ; background-color : #ffd93b ; margin-top : 10px ; width : 90% ; border-radius : 10px ; box-shadow : .5px .5px 7px #ffd93b;">
+              <div class='comment_popup_pin ${c.ImgName}' style="background-color : transparent ; margin-top : 5px ; width : 100% ; display : flex ; justify-content : center ; align-content : center;"></div>
+              <div style="background-color : transparent ; margin-top : 5px ; width : 100% ; max-height : 200px ; overflow-y : scroll;">
+                  <div class='comment_mycomments ${c.ImgName}' style="background-color : transparent ; width : 100% ; display : flex ; flex-direction : column;"></div>
+                  <div class='comment_ocomments ${c.ImgName}' style="background-color : transparent ; width : 100% ; display : flex ; flex-direction : column;"></div>
+              </div>
+              <div class='comment_input_div'>
+                  <input type="text" class='comment_input ${c.ImgName}' placeholder="Comment..." />
+                  <div class='comment_send ${c.ImgName}' onclick="CommentPost('${c.ImgName}' , '${c.PComment}')">
+                      <i class='fal fa-paper-plane ${c.ImgName}' style="color : #121212 ; margin : 10px ; font-size : 15px;"></i>
+                  </div>
+              </div>
+              </div>
+          </div>
+
+          <center>
+              <div class='action_popups share_popup ${c.ImgName}' style="display : none ; background-color : rgb(236, 235, 235) ; margin-top : 10px ; width : 90% ; border-radius : 10px ; box-shadow : .5px .5px 7px grey;">
+                  <small style="color : #121212 ; background-color : transparent ; font-family: 'Maven Pro', sans-serif;">Share on...</small>
+                  <div class="share_icons" style="background-color : transparent ; width : 100% ; display : flex ; justify-content : space-around ; margin-top : 10px ; margin-bottom : 10px;">
+                      <a href='https://twitter.com/intent/tweet?url=https://meemz.gq/public_stats/${c.ImgName}&text=Memes I found on the internet&hashtags=Meemz' style="background-color : transparent;"><i class="fab fa-twitter" style="color : #121212;"></i></a>
+                      <a href='https://reddit.com/submit?url=https://meemz.gq/public_stats/${c.ImgName}&title=Memes I found on the internet' style="background-color : transparent;"><i class="fab fa-reddit" style="color : #121212;"></i></a>
+                      <a href='https://api.whatsapp.com/send?text=Memes I found on the internet%20https://meemz.gq/public_stats/${c.ImgName}' style="background-color : transparent;"><i class="fab fa-whatsapp" style="color : #121212;"></i></a>
+                  </div>
+              </div>
+          </center>
+
+      </div>`
         );
 
         let img = document.getElementsByClassName(`image ${c.ImgName}`)[0];
@@ -113,15 +118,17 @@ axios.post("/main_content").then(res => {
                             'Content-Type': 'application/x-www-form-urlencoded'
                         }
                     });
-            
+
                     img_div.style.filter = "blur(0)";
                     img_div.style.transition = "filter .5s";
-                    img_div.style.setProperty("background-color" , "none");
+                    img_div.style.setProperty("background-color", "none");
                     img.style.opacity = "1";
                     img.setAttribute("src", `/static/uploads/${c.ImgName}`);
                 }
             });
-        }, { threshold : 0.5 });
+        }, {
+            threshold: 0.3
+        });
         observer.observe(img_div);
 
         let profile_observer = new IntersectionObserver(entries => {
@@ -130,7 +137,9 @@ axios.post("/main_content").then(res => {
                     uploader_profile.setAttribute("src", `/static/profile-pictures/${c.ProfileImg}`);
                 }
             });
-        }, { threshold : 0.5 });
+        }, {
+            threshold: 0.5
+        });
         profile_observer.observe(uploader_profile);
     });
 });
@@ -268,7 +277,7 @@ function FetchComments(imgName, pinned_comment) {
                         float : left;
                         margin-left : 5px;
                         margin-top : 7px;
-                        border : 2px solid white;
+                        border : 2px solid rgb(236, 235, 235);
                     ">
                     <p style="
                         color : grey;
@@ -323,7 +332,7 @@ function FetchComments(imgName, pinned_comment) {
                     float : left;
                     margin-left : 5px;
                     margin-top : 7px;
-                    border : 2px solid white;
+                    border : 2px solid rgb(236, 235, 235);
                 ">
                 <p style="
                     color : grey;

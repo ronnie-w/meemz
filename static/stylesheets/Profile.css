@@ -62,7 +62,7 @@
 }
 
 .posts{
-    color: white;
+    color: #121212;
     font-size: 20px;
     margin: 5px;
     cursor: pointer;
@@ -76,15 +76,15 @@
 .posts_num{
     display: grid;
     place-items: center;
-    border: 1px wheat solid;
+    border: 1px rgb(255, 166, 0) solid;
     margin-top: 5px;
     width: 50%;
     border-radius: 20px;
-    box-shadow: .2px .2px 5px wheat;
+    box-shadow: .2px .2px 5px rgb(255, 166, 0);
 }
 
 .posts_num_txt{
-    color: wheat;
+    color: rgb(255, 166, 0);
     font-size: 15px;
     margin: 5px;
     background-color: transparent;

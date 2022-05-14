@@ -10,7 +10,6 @@ import (
 	"github.com/meemz/parser"
 	"github.com/meemz/profile"
 	"github.com/meemz/regommend"
-	"github.com/meemz/socketio"
 	"github.com/meemz/upload"
 )
 
@@ -28,9 +27,9 @@ func Routes() *mux.Router {
 		"/profile":         parser.Profile,
 		"/private_posts":   parser.PrivatePosts,
 		"/profile_edit":    parser.ProfileEdit,
-		"/convo":           parser.Convo,
 		"/create":          parser.Create,
 		"/creator":         parser.Creator,
+		"/veemz":			parser.Veemz,
 		"/search":          parser.Search,
 		"/notifications":   parser.Notifications,
 		"/forgot_password": parser.ForgotPassword,
@@ -38,22 +37,23 @@ func Routes() *mux.Router {
 		"/user/{username}":         parser.Account,
 		"/public_stats/{img_name}": parser.PublicStats,
 		"/image_stats/{img_name}":  parser.ImageStats,
-		"/convo_create/{room}":     parser.ConvoCreate,
-		"/convo_init/{topic}":      parser.ConvoInit,
 
 		"/manifest.json": parser.Manifest,
 		"/sw_init.js": parser.ServiceWorkerInit,
 		"/sw.js": parser.ServiceWorker,
+
+		"/.well-known/assetslinks.json": parser.AssetsLink,
 	}
 
 	end_points := map[string]func(http.ResponseWriter, *http.Request){
+		//regommendation router
+		"/main_content": regommend.FetchMeemz,
+
+		//authentication router
 		"/check_user":        authentication.CheckUser,
 		"/signup_auth":       authentication.Signup,
 		"/wrong_mail":        authentication.DeleteUser,
 		"/fetch_user":        authentication.FetchUser,
-		"/fetch_user_chat":   authentication.FetchUserFromChat,
-		"/f_m_d":             authentication.FetchMembershipDetails,
-		"/f_a_m":             authentication.FetchAllMembers,
 		"/verify_auth":       authentication.Verify,
 		"/login_auth":        authentication.Login,
 		"/pass_send_code":    authentication.SendVerificationCode,
@@ -62,9 +62,10 @@ func Routes() *mux.Router {
 
 		//upload router
 		"/upload_meemz":        upload.UploadMeemz,
-		"/update_config":       upload.UpdateMeemzConfig,
+		"/upload_veemz": 		upload.UploadVeemz,
+		"/update_meemz_config": upload.UpdateMeemzConfig,
+		"/update_veemz_config": upload.UpdateVeemzConfig,
 		"/upload_convo_images": upload.UploadConvoImages,
-		//"/upload_voice_note" : upload.UploadVoiceNote,
 
 		//profile router
 		"/my_uploads":              contentfetch.MyUploads,
@@ -87,21 +88,6 @@ func Routes() *mux.Router {
 		"/search_tags":  contentfetch.SearchTags,
 		//-------------stats router
 		"/fetch_stats": contentfetch.StatsHandler,
-
-		//conversations router
-		"/create_convo":        socketio.CreateConvo,
-		"/convo_banner_upload": socketio.ConvoBannerUpload,
-		"/fetch_room_details":  socketio.FetchRoom,
-		"/fetch_messages":      socketio.FetchMessages,
-		"/active_chats/ptd":    socketio.PostChatToDb,
-		"/socket":              socketio.SocketIo,
-		"/search_room_topics":  socketio.SearchRoomTopics,
-		"/search_room_titles":  socketio.SearchedRoomTitles,
-		"/fetch_profile_rooms": socketio.ProfileRooms,
-		"/leave_room":          socketio.LeaveRoom,
-
-		//recommendation engine router
-		"/main_content": regommend.FetchMeemz,
 
 		//activities router
 		"/post_reaction":        activities.PostReaction,

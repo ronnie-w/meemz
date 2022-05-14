@@ -9,11 +9,12 @@ let tags;
 let accounts;
 
 function Focus() {
-    search_input_div.style.border = "1px dashed white";
+    search_input_div.style.boxShadow = ".2px .2px 5px black";
 }
 
 
 function FetchRequests() {
+    window.stop();
     let meemz_eof = document.getElementById("meemz_eof");
     let acc_eof = document.getElementById("acc_eof");
     let tags_eof = document.getElementById("tags_eof");
@@ -30,8 +31,7 @@ function FetchRequests() {
 
         //search meemz
         axios.post('/search_meemz', qs.stringify({
-            ImgOcr: search_input.value.trim(),
-
+            ImgOcr: search_input.value.trim()
         }), {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -52,7 +52,7 @@ function FetchRequests() {
                             <p class="uploader_username">${c.Username}</p>
                             </div>
                         </div>
-                        <div class="loaded_img_div ${c.ImgName}" style="height : 500px ; filter : blur(5px) ; background-color : #121212;">
+                        <div class="loaded_img_div ${c.ImgName}" style="height : 500px ; filter : blur(5px) ; background-color : rgb(236, 235, 235);">
                         </div>
                         <img onload="FixHeight('${c.ImgName}')" alt="meemz" class='image ${c.ImgName}' id='image ${c.ImgName}' style="opacity : 0;" loading="lazy"/>
                         <div class="reaction_icons_div">
@@ -74,7 +74,7 @@ function FetchRequests() {
                 
                         <center>
                         <div class='action_popups report_popup ${c.ImgName}' style="display : none ; background-color : rgb(141, 0, 0) ; margin-top : 10px ; width : 90% ; border-radius : 10px ; box-shadow : .5px .5px 7px rgb(141, 0, 0);">
-                            <small style="color : white ; background-color : rgb(0 , 0, 0, 0);">Why do you want to report this post ?</small>
+                            <small style="color : rgb(236, 235, 235) ; background-color : rgb(0 , 0, 0, 0);">Why do you want to report this post ?</small>
                             <select class="report_selector ${c.ImgName}" name="access" id="access" style="width : 90% ; color : red;">
                                 <option value="Spam">Report spam</option>
                                 <option value="Seen before">Seen this more than once</option>
@@ -105,7 +105,7 @@ function FetchRequests() {
                         </div>
                 
                         <center>
-                            <div class='action_popups share_popup ${c.ImgName}' style="display : none ; background-color : white ; margin-top : 10px ; width : 90% ; border-radius : 10px ; box-shadow : .5px .5px 7px white;">
+                            <div class='action_popups share_popup ${c.ImgName}' style="display : none ; background-color : rgb(236, 235, 235) ; margin-top : 10px ; width : 90% ; border-radius : 10px ; box-shadow : .5px .5px 7px grey;">
                                 <small style="color : #121212 ; background-color : transparent ; font-family: 'Maven Pro', sans-serif;">Share on...</small>
                                 <div class="share_icons" style="background-color : transparent ; width : 100% ; display : flex ; justify-content : space-around ; margin-top : 10px ; margin-bottom : 10px;">
                                     <a href='https://twitter.com/intent/tweet?url=https://meemz.gq/public_stats/${c.ImgName}&text=Memes I found on the internet&hashtags=Meemz' style="background-color : transparent;"><i class="fab fa-twitter" style="color : #121212;"></i></a>
@@ -125,7 +125,7 @@ function FetchRequests() {
                     let observer = new IntersectionObserver(entries => {
                         entries.forEach(entry => {
                             if (entry.isIntersecting === true) {
-                                console.log(entry);
+
                                 axios.post("/viewed", qs.stringify({
                                     ImgName: c.ImgName
                                 }), {
@@ -142,7 +142,7 @@ function FetchRequests() {
                             }
                         });
                     }, {
-                        threshold: 0.5
+                        threshold: 0.3
                     });
                     observer.observe(img_div);
 
@@ -152,7 +152,9 @@ function FetchRequests() {
                                 uploader_profile.setAttribute("src", `/static/profile-pictures/${c.ProfileImg}`);
                             }
                         });
-                    }, { threshold : 0.5 });
+                    }, {
+                        threshold: 0.5
+                    });
                     profile_observer.observe(uploader_profile);
                 });
             }
@@ -186,7 +188,7 @@ function FetchRequests() {
                         <center>
                             <p style="margin-bottom : 5px;" onclick="Redirect('${acc.Username}')">${acc.Username}
                             </p>
-                            <button id="sub ${acc.Username}" style="background-color: ${acc.BGC}; color: ${acc.Color}; font-size: 8px; margin: 2px; box-shadow: .5px .5px 7px wheat;" onclick="Subscription('sub ${acc.Username}' , '${acc.Username}')">${acc.Subscription}</button>
+                            <button id="sub ${acc.Username}" style="background-color: ${acc.BGC}; color: ${acc.Color}; font-size: 8px; margin: 2px; box-shadow: .5px .5px 7px rgb(255, 166, 0);" onclick="Subscription('sub ${acc.Username}' , '${acc.Username}')">${acc.Subscription}</button>
                         </center>
                     </div>`
                     );
@@ -203,8 +205,7 @@ function FetchRequests() {
     if (search_input.value.trim() !== "" && search_input.value.length > 2) {
         //search tags
         axios.post('/search_tags', qs.stringify({
-            Tags: search_input.value.trim().toLowerCase(),
-
+            Tags: search_input.value.trim().toLowerCase()
         }), {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -225,7 +226,7 @@ function FetchRequests() {
                                 <p class="uploader_username">${c.Username}</p>
                             </div>
                         </div>
-                        <div class="loaded_img_div ${c.ImgName}" style="height : 500px ; filter : blur(5px) ; background-color : #121212;">
+                        <div class="loaded_img_div ${c.ImgName}" style="height : 500px ; filter : blur(5px) ; background-color : rgb(236, 235, 235);">
                         </div>
                         <img onload="FixHeight('${c.ImgName}')" alt="meemz" class='image ${c.ImgName}' id='image ${c.ImgName}' style="opacity : 0;" loading="lazy"/>
                         <div class="reaction_icons_div">
@@ -247,7 +248,7 @@ function FetchRequests() {
                 
                         <center>
                         <div class='action_popups report_popup ${c.ImgName}' style="display : none ; background-color : rgb(141, 0, 0) ; margin-top : 10px ; width : 90% ; border-radius : 10px ; box-shadow : .5px .5px 7px rgb(141, 0, 0);">
-                            <small style="color : white ; background-color : rgb(0 , 0, 0, 0);">Why do you want to report this post ?</small>
+                            <small style="color : rgb(236, 235, 235) ; background-color : rgb(0 , 0, 0, 0);">Why do you want to report this post ?</small>
                             <select class="report_selector ${c.ImgName}" name="access" id="access" style="width : 90% ; color : red;">
                                 <option value="Spam">Report spam</option>
                                 <option value="Seen before">Seen this more than once</option>
@@ -278,7 +279,7 @@ function FetchRequests() {
                         </div>
                 
                         <center>
-                            <div class='action_popups share_popup ${c.ImgName}' style="display : none ; background-color : white ; margin-top : 10px ; width : 90% ; border-radius : 10px ; box-shadow : .5px .5px 7px white;">
+                            <div class='action_popups share_popup ${c.ImgName}' style="display : none ; background-color : rgb(236, 235, 235) ; margin-top : 10px ; width : 90% ; border-radius : 10px ; box-shadow : .5px .5px 7px grey;">
                                 <small style="color : #121212 ; background-color : transparent ; font-family: 'Maven Pro', sans-serif;">Share on...</small>
                                 <div class="share_icons" style="background-color : transparent ; width : 100% ; display : flex ; justify-content : space-around ; margin-top : 10px ; margin-bottom : 10px;">
                                     <a href='https://twitter.com/intent/tweet?url=https://meemz.gq/public_stats/${c.ImgName}&text=Memes I found on the internet&hashtags=Meemz' style="background-color : transparent;"><i class="fab fa-twitter" style="color : #121212;"></i></a>
@@ -298,7 +299,7 @@ function FetchRequests() {
                     let observer = new IntersectionObserver(entries => {
                         entries.forEach(entry => {
                             if (entry.isIntersecting === true) {
-                                console.log(entry);
+
                                 axios.post("/viewed", qs.stringify({
                                     ImgName: c.ImgName
                                 }), {
@@ -315,7 +316,7 @@ function FetchRequests() {
                             }
                         });
                     }, {
-                        threshold: 0.5
+                        threshold: 0.3
                     });
                     observer.observe(img_div);
 
@@ -325,7 +326,9 @@ function FetchRequests() {
                                 uploader_profile.setAttribute("src", `/static/profile-pictures/${c.ProfileImg}`);
                             }
                         });
-                    }, { threshold : 0.5 });
+                    }, {
+                        threshold: 0.5
+                    });
                     profile_observer.observe(uploader_profile);
                 });
             }
@@ -443,7 +446,7 @@ function FetchComments(imgName, pinned_comment) {
                         float : left;
                         margin-left : 5px;
                         margin-top : 7px;
-                        border : 2px solid white;
+                        border : 2px solid rgb(236, 235, 235);
                     ">
                     <p style="
                         color : grey;
@@ -498,7 +501,7 @@ function FetchComments(imgName, pinned_comment) {
                     float : left;
                     margin-left : 5px;
                     margin-top : 7px;
-                    border : 2px solid white;
+                    border : 2px solid rgb(236, 235, 235);
                 ">
                 <p style="
                     color : grey;
@@ -595,9 +598,9 @@ function ToggleSearch(result_div, c_txt) {
     let tags_c = document.getElementById("tags_c");
     let acc_c = document.getElementById("acc_c");
 
-    meemz_c.style.color = "white";
-    tags_c.style.color = "white";
-    acc_c.style.color = "white";
+    meemz_c.style.color = "rgb(236, 235, 235)";
+    tags_c.style.color = "rgb(236, 235, 235)";
+    acc_c.style.color = "rgb(236, 235, 235)";
 
     let div = document.getElementsByClassName(result_div)[0];
     let txt = document.getElementById(c_txt);
@@ -622,7 +625,7 @@ function Subscription(btn_id, username) {
             }
         });
         btn.style.backgroundColor = "#121212";
-        btn.style.color = "wheat";
+        btn.style.color = "rgb(255, 166, 0)";
         btn.innerText = "Unsubscribe";
     } else {
         axios.post("/unsubscribe", qs.stringify({
@@ -633,8 +636,39 @@ function Subscription(btn_id, username) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         });
-        btn.style.backgroundColor = "white";
+        btn.style.backgroundColor = "rgb(236, 235, 235)";
         btn.style.color = "#121212";
         btn.innerText = "Subscribe";
     }
 }
+
+function Report(imgName) {
+    let report_value = document.getElementsByClassName("report_selector " + imgName)[0].value;
+    let main_div = document.getElementById(`meemz_content_main_div ${imgName}`);
+
+    axios.post("/delete_report", qs.stringify({
+        ImgName: imgName,
+        ReactionType: report_value,
+
+    })).then(_res => {
+        axios.post("/post_report", qs.stringify({
+            ImgName: imgName,
+            ReactionType: report_value,
+
+        }), {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(_res => {
+            ResetToDefaults(imgName);
+        }).catch(err => {
+            if (err) throw err;
+        });
+    });
+
+    main_div.style.animation = "fadeOut";
+    main_div.style.animationDuration = "800ms";
+    setTimeout(() => {
+        main_div.style.display = "none";
+    }, 799);
+};

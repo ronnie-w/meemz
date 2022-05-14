@@ -62,17 +62,21 @@ func PublicStats(rw http.ResponseWriter, r *http.Request) {
 	Parser(rw, "templates/publicStats.html")
 }
 
-func Convo(rw http.ResponseWriter, r *http.Request) {
-	Parser(rw, "templates/convo.html")
+func Veemz(rw http.ResponseWriter, r *http.Request) {
+	Parser(rw, "templates/veemz.html")
 }
 
-func ConvoInit(rw http.ResponseWriter, r *http.Request) {
-	Parser(rw, "templates/convoInit.html")
-}
+// func Convo(rw http.ResponseWriter, r *http.Request) {
+// 	Parser(rw, "templates/convo.html")
+// }
 
-func ConvoCreate(rw http.ResponseWriter, r *http.Request) {
-	Parser(rw, "templates/convoCreate.html")
-}
+// func ConvoInit(rw http.ResponseWriter, r *http.Request) {
+// 	Parser(rw, "templates/convoInit.html")
+// }
+
+// func ConvoCreate(rw http.ResponseWriter, r *http.Request) {
+// 	Parser(rw, "templates/convoCreate.html")
+// }
 
 func Create(rw http.ResponseWriter, r *http.Request) {
 	Parser(rw, "templates/create.html")
@@ -108,4 +112,8 @@ func ServiceWorkerInit(rw http.ResponseWriter, r *http.Request)  {
 
 func ServiceWorker(rw http.ResponseWriter, r *http.Request)  {
 	http.ServeFile(rw, r, "sw.js")
+}
+
+func AssetsLink(rw http.ResponseWriter, r *http.Request)  {
+	http.ServeFile(rw, r, ".well-known/assetslinks.json")
 }

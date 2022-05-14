@@ -31,9 +31,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
 
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
     <script src="/sw.js" defer></script>
     <script src="/sw_init.js" defer></script>
 </head>
@@ -44,18 +44,6 @@
             window.location.replace("/login");
         }
     });
-    
-    var match = document.cookie.match(new RegExp('(^| )screen_pos=([^;]+)'));
-
-    setTimeout(() => {
-        if (match !== null) {
-            window.scrollTo({
-                top: match[2],
-                left: 0,
-                behavior: 'smooth'
-            });
-        }
-    }, 200);
 </script>
 
 <body>
@@ -75,16 +63,16 @@
             <div
                 style="background-color : transparent; border-radius : 20px; box-shadow : .5px .5px 7px grey; width : 90%; display : flex; justify-content : center; align-content : center;">
                 <p class="users_bio"
-                    style="font-family: 'Comfortaa', cursive; color : wheat; margin : 7px; font-size : 12px;"></p>
+                    style="font-family: 'Comfortaa', cursive; color : rgb(255, 166, 0); margin : 7px; font-size : 12px;"></p>
             </div>
         </div>
         <div class="profile_subs">
             <small id="profile_subs"
-                style="color : white; margin-top : 5px; font-family: 'Comfortaa', cursive;"></small>
+                style="color : #121212; margin-top : 5px; font-family: 'Comfortaa', cursive;"></small>
         </div>
         <div class="profile_config_main" id="profile_config_main">
-            <i class="posts far fa-images" style="color : wheat;" onclick="ToggleConfig('far fa-images')"></i>
-            <i class="posts far fa-comment-alt" onclick="ToggleConfig('far fa-comment-alt')"></i>
+            <i class="posts fad fa-image" style="color : rgb(255, 166, 0);" onclick="ToggleConfig('fad fa-image')"></i>
+            <i class="posts fad fa-film-alt" onclick="ToggleConfig('fad fa-film-alt')"></i>
         </div>
         <center>
             <div class="posts_num">

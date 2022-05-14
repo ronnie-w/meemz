@@ -42,7 +42,7 @@ axios.post('/search_users', qs.stringify({
     }
 }).then((res) => {
     acc = res.data[0];
-    $(".profile_subs").append(`<button id="sub_${acc.Username}" style="background-color: ${acc.BGC}; color: ${acc.Color}; font-size: 8px; box-shadow: .5px .5px 7px wheat;" onclick="Subscription('sub_${acc.Username}' , '${acc.Username}')">${acc.Subscription}</button>`);
+    $(".profile_subs").append(`<button id="sub_${acc.Username}" style="background-color: ${acc.BGC}; color: ${acc.Color}; font-size: 8px; box-shadow: .5px .5px 7px rgb(255, 166, 0);" onclick="Subscription('sub_${acc.Username}' , '${acc.Username}')">${acc.Subscription}</button>`);
     $("#profile_img").attr("src", `/static/profile-pictures/${acc.ProfileImg}`);
     $(".profile_username").text(acc.Username);
     $(".users_bio").text(acc.Bio);
@@ -85,11 +85,11 @@ axios.post("/fetch_profile_rooms", qs.stringify({
             `<div style="border : 1px solid rgb(48, 47, 47); margin-top : 10px; box-shadow: .2px .2px 5px grey;">
                 <center>
                     <img src="/static/convo_banners/${room.TopicProfile}" alt="convo_banner"
-                        style="width : 100px; height : 100px; border-radius : 10px; margin : 5px; box-shadow : .2px .2px 3px wheat;" />
+                        style="width : 100px; height : 100px; border-radius : 10px; margin : 5px; box-shadow : .2px .2px 3px grey;" />
                 </center>
                 <center>
                     <p style="margin-bottom : 10px">${room.Title}</p>
-                    <button style="color : wheat; background-color : grey;" onclick="javascript:window.location.assign('https://meemzchat.cf/main/details=${auth_key},${room.ChatRoomId}')">Join</button>
+                    <button style="color : rgb(255, 166, 0); background-color : grey;" onclick="javascript:window.location.assign('https://meemzchat.cf/main/details=${auth_key},${room.ChatRoomId}')">Join</button>
                 </center>
             </div>`
         );
@@ -174,15 +174,15 @@ function ToggleConfig(class_name) {
         if (class_name === "far fa-images") {
             my_upload.style.display = "flex";
             searched_rooms.style.display = "none";
-            img_btn.style.color = "wheat";
-            rooms_btn.style.color = "white";
+            img_btn.style.color = "rgb(255, 166, 0)";
+            rooms_btn.style.color = "#121212";
 
             Posts();
         } else {
             my_upload.style.display = "none";
             searched_rooms.style.display = "flex";
-            rooms_btn.style.color = "wheat";
-            img_btn.style.color = "white";
+            rooms_btn.style.color = "rgb(255, 166, 0)";
+            img_btn.style.color = "#121212";
 
             if (rooms.length === 1 && rooms.length !== 0) {
                 posts.innerText = `${rooms.length} rooms found`;
@@ -214,7 +214,7 @@ function Subscription(btn_id, username) {
                 }
             });
             btn.style.backgroundColor = "#121212";
-            btn.style.color = "wheat";
+            btn.style.color = "rgb(255, 166, 0)";
             btn.innerText = "Unsubscribe";
 
             numsubs++;
@@ -231,7 +231,7 @@ function Subscription(btn_id, username) {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
-            btn.style.backgroundColor = "white";
+            btn.style.backgroundColor = "rgb(236, 235, 235)";
             btn.style.color = "#121212";
             btn.innerText = "Subscribe";
 

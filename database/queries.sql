@@ -29,6 +29,16 @@ CREATE TABLE posts(
     uploadTime blob DEFAULT "N/A"
 );
 
+CREATE TABLE veemz(
+    id int not null PRIMARY key AUTO_INCREMENT,
+    userId varchar(50) not null,
+    vidName varchar(255) not null,
+    tags blob not null DEFAULT "",
+    pComment blob not null DEFAULT "",
+    access blob DEFAULT "Public",
+    uploadTime blob DEFAULT "N/A"
+);
+
 CREATE TABLE chatRooms(
     id int not null PRIMARY KEY AUTO_INCREMENT,
     userId blob not null,

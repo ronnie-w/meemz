@@ -5,14 +5,14 @@
 }
 
 .verify_title{
-    color: whitesmoke;
+    color: #121212;
     font-family: 'Knewave', cursive;
     margin-top: 15px;
     margin-left: 15px;
 }
 
 .verify_input_div {
-    border: 1px solid whitesmoke;
+    box-shadow: .2px .2px 5px grey;
     border-radius: 6px;
     margin-bottom: 20px;
     margin-top: 70px;
@@ -24,8 +24,8 @@
 }
 
 .verify_btn {
-    background-color: wheat;
-    color: #121212;
+    background-color: rgb(255, 166, 0);
+    color: rgb(236, 235, 235);
     margin: 5px;
 }
 
@@ -45,7 +45,7 @@
     background-color: grey;
     margin-right: 10px;
     margin-top: 15px;
-    color: #121212;
+    color: rgb(236, 235, 235);
 }
 
 .verify_topbar{

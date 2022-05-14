@@ -25,7 +25,7 @@ func Signup(rw http.ResponseWriter, r *http.Request) {
 
 	exists := QuickCheck(user.Username, user.Email)
 
-	if exists == 0 {
+	if exists == 0 && user.Username != "" {
 		insert_row, _ := db.Query("INSERT INTO users(username,userId,email,password,serverCode) values(?,?,?,?,?)", user.Username, uid.String(), user.Email, password, random.String())
 
 		SendMail(user.Email, "Account Verification", "Your verification code is "+random.String()+"", `

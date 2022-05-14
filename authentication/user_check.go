@@ -90,7 +90,7 @@ func CheckUser(rw http.ResponseWriter, r *http.Request) {
 }
 
 func QuickCheck(username string, email string) int {
-	rows, err := db.Query("SELECT userId FROM users WHERE username=? OR email=?", username, email)
+	rows, err := db.Query("SELECT userId FROM users WHERE username=? OR email=? AND username!='' AND email!=''", username, email)
 	if err != nil {
 		log.Fatalln(err)
 	}

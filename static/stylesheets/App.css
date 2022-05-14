@@ -5,13 +5,13 @@
 
 p{
     font-family: 'Maven Pro', sans-serif;
-    color: white;
-    background-color: #121212;
+    color: #121212;
+    background-color: rgb(236, 235, 235);
 }
 
 .auth_title{
     font-family: 'Knewave', cursive;
-    color: whitesmoke;
+    color: #121212;
     text-align: center;
     margin-top: 5px;
 }

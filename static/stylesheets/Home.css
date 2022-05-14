@@ -1,5 +1,5 @@
 .home_title{
-    color: white;
+    color: #121212;
     font-family: 'Knewave', cursive;
     margin-top: 5px;
     margin-left: 5px;
@@ -8,14 +8,14 @@
 }
 
 .home_topbar{
-    background-color: #121212;
+    background-color: rgb(236, 235, 235);
     width: 100%;
     position: fixed;
     border-bottom: 1px solid rgb(30, 30, 30);
 }
 
 .home_topbar_icons{
-    background-color: #121212;
+    background-color: rgb(236, 235, 235);
     float: right;
     margin: 10px;
 }
@@ -42,7 +42,18 @@
 }
 
 .reaction_icons_div > i.fas{
-    color: #ffd93b;
+    animation: fadeInUp;
+    animation-duration: 500ms;
+}
+
+.reaction_icons_div > i.fas.fa-grin-tears{
+    color: rgb(255, 166, 0);
+    animation: fadeInUp;
+    animation-duration: 500ms;
+}
+
+.reaction_icons_div > i.fas.fa-grin-tongue-squint{
+    color: rgb(197, 177, 0);
     animation: fadeInUp;
     animation-duration: 500ms;
 }
@@ -60,13 +71,13 @@
 }
 
 .actions_icons_div{
-    background-color: #121212;
+    background-color: rgb(236, 235, 235);
     margin-top: 20px;
     width: 90%;
     display: flex;
     justify-content: space-evenly;
     border-radius: 7px;
-    box-shadow: .2px .2px 5px wheat;
+    box-shadow: .2px .2px 5px grey;
 }
 
 .actions_icons_div > i{
@@ -78,7 +89,7 @@
 .actions_icons_div > a{
     margin-top: 5px;
     margin-bottom: 5px;
-    background-color: #121212;
+    background-color: rgb(236, 235, 235);
 }
 
 .actions_icons_div > a > i{
@@ -123,7 +134,7 @@
 .comment_input{
     font-family: 'Maven Pro', sans-serif;
     color: #121212;
-    border: 1px solid #121212;
+    box-shadow: .2px .2px 5px grey;
     background-color: transparent;
     height: 5px;
     width: 70%;
@@ -134,7 +145,7 @@
 
 .comment_send{
     background-color: transparent;
-    border: 1px solid #121212;
+    box-shadow: .2px .2px 5px grey;
     border-radius: 50px;
 }
 

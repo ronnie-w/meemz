@@ -43,7 +43,7 @@ function Change() {
     fileReader.readAsDataURL(profile_img_select.files[0]);
 
     if (profile_img_select.files.length === 1) {
-        auth_errs.innerHTML = `<center><i id="spinner" class="fal fa-spinner-third fa-spin" style="color : white"></i></center>`;
+        auth_errs.innerHTML = `<center><i id="spinner" class="fal fa-spinner-third fa-spin" style="color : #121212"></i></center>`;
 
         let formData = new FormData();
         formData.append("profile_img", profile_img_select.files[0]);
@@ -67,7 +67,7 @@ function Change() {
                 }
             }).then(_ =>{
                 $(auth_errs).empty();
-                auth_errs.innerHTML = "<small style='color : white; background-color : transparent ; font-family : 'Maven Pro', sans-serif ;'>Profile picture updated</small>"
+                auth_errs.innerHTML = "<small style='color : #121212; background-color : transparent ; font-family : 'Maven Pro', sans-serif ;'>Profile picture updated</small>"
                 setTimeout(() => {
                     $(auth_errs).empty();
                 }, 2000);

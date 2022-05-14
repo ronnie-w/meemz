@@ -25,6 +25,15 @@ axios.post("/fetch_stats", qs.stringify({
     $(".stats_counter4").text(res.data.Reaction4);
     $(".stats_counter5").text(res.data.Reaction5);
 
-    $("#stats_comments").text(res.data.Comments);
-    $("#stats_views").text(res.data.Views);
+    if(res.data.Comments > 1 || res.data.Comments == 0) {
+        $("#stats_comments").text(`${res.data.Comments} comments`);
+    }else{
+        $("#stats_comments").text(`${res.data.Comments} comment`);
+    }
+
+    if(res.data.Views > 1 || res.data.Views == 0) {
+        $("#stats_views").text(`${res.data.Views} views`);
+    }else{
+        $("#stats_views").text(`${res.data.Views} view`);
+    }
 });

@@ -14,10 +14,10 @@
 }
 
 .profile_label_div{
-    background-color: white;
+    background-color: rgb(236, 235, 235);
     width: 200px;
     border-radius: 50px;
-    box-shadow: .5px .5px 7px white;
+    box-shadow: .5px .5px 7px grey;
     margin-bottom: 20px;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .profile_edit_btn{
-    background-color: wheat;
+    background-color: rgb(255, 166, 0);
     width: fit-content;
 }
 
@@ -44,5 +44,5 @@
     font-weight: 600;
     margin: 5px;
     background-color: transparent;
-    color: #121212;
+    color: rgb(236, 235, 235);
 }

@@ -10,17 +10,17 @@
 }
 
 .image_select{
-    background-color: wheat;
+    background-color: rgb(255, 166, 0);
     width: 200px;
     display: grid;
     place-items: center;
     border-radius: 20px;
-    box-shadow: .5px .5px 7px wheat;
+    box-shadow: .5px .5px 7px rgb(255, 166, 0);
 }
 
 .image_select_text{
-    background-color: wheat;
-    color: #121212;
+    background-color: rgb(255, 166, 0);
+    color: rgb(236, 235, 235);
     font-family: 'Comfortaa', cursive;
     margin: 10px;
 }
@@ -65,10 +65,10 @@
 }
 
 .upload_btn{
-    background-color: white;
+    background-color: rgb(255, 166, 0);
     margin: 10px;
     margin-bottom: 50px;
-    color: #121212;
+    color: rgb(236, 235, 235);
 }
 
 
@@ -93,4 +93,20 @@
     border-radius: 10px;
     display: none;
     font-family: 'Maven Pro', sans-serif;
+}
+
+.select_labels {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.image_select_label_icon > i, .video_select_label_icon > i {
+    margin: 10px;
+    color: crimson;
+}
+
+.image_select_label_icon, .video_select_label_icon {
+    border-radius: 10px;
+    box-shadow: .2px .2px 5px grey;
 }

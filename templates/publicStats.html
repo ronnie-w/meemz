@@ -31,15 +31,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
 
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
     <script src="/sw.js" defer></script>
     <script src="/sw_init.js" defer></script>
 </head>
 
 <script>
-    axios.post("/fetch_user").then(res =>{
+    axios.post("/fetch_user").then(res => {
         if (res.data === null) {
             window.location.replace("/login");
         }
@@ -55,37 +55,38 @@
             </div>
         </div>
         <center>
-        <div class="image_div">
+            <div class="image_div">
                 <img class="image" alt="image_stats" />
-        </div>
-        <div class="reaction_icons_div">
-            <i id="far_grin"></i>
-            <i id="far_squint"></i>
-            <i id="far_meh"></i>
-            <i id="far_tear"></i>
-            <i id="far_angry"></i>
-        </div>
-        <div class="reaction_icons_div" style="padding-top : 5px;">
-            <p class="stats_counter1"></p>
-            <p class="stats_counter2"></p>
-            <p class="stats_counter3"></p>
-            <p class="stats_counter4"></p>
-            <p class="stats_counter5"></p>
-        </div>
+            </div>
+            <div class="reaction_icons_div">
+                <i id="far_grin"></i>
+                <i id="far_squint"></i>
+                <i id="far_meh"></i>
+                <i id="far_tear"></i>
+                <i id="far_angry"></i>
+            </div>
+            <div class="reaction_icons_div" style="padding-top : 5px;">
+                <p class="stats_counter1"></p>
+                <p class="stats_counter2"></p>
+                <p class="stats_counter3"></p>
+                <p class="stats_counter4"></p>
+                <p class="stats_counter5"></p>
+            </div>
         </center>
         <div class="stats__div">
             <div class="stats_comments">
                 <i class="far fa-comment" style="margin-right : 5px"></i>
-                <strong style="margin-right : 10px">:</strong>
-                <strong id="stats_comments"></strong>
+                <strong style="margin-right : 10px; color : #121212">:</strong>
+                <strong id="stats_comments" style="color : #121212"></strong>
             </div>
             <div class="stats_views">
                 <i class="far fa-eye" style="margin-right : 5px"></i>
-                <strong style="margin-right : 10px">:</strong>
-                <strong id="stats_views"></strong>
+                <strong style="margin-right : 10px; color : #121212">:</strong>
+                <strong id="stats_views" style="color : #121212"></strong>
             </div>
         </div>
     </div>
 </body>
 <script src="../static/scripts/publicStats.js"></script>
+
 </html>

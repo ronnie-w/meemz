@@ -8,7 +8,7 @@
 
 .convo_topic, .convo_title, .convo_number{
     background-color: transparent;
-    color: white;
+    color: rgb(236, 235, 235);
     font-weight: bolder;
     width: 300px;
     font-family: 'Maven Pro', sans-serif;
@@ -27,7 +27,7 @@
 
 .convo_proceed_icon{
     background-color: transparent;
-    color: #121212;
+    color: rgb(236, 235, 235);
     margin: 50px;
     font-family: 'Comfortaa', cursive;
 }

@@ -1,11 +1,11 @@
 .search_top_bar{
-    background-color: #121212;
+    background-color: rgb(236, 235, 235);
     position: fixed;
     width: 100%;
 }
 
 .search_input_div{
-    border: 1px dashed grey;
+    box-shadow: .2px .2px 5px grey;
     border-radius: 6px;
     margin: 10px;
     width: fit-content;
@@ -35,7 +35,7 @@
     margin-top: 60px;
     position: fixed;
     width: 100%;
-    background-color: #121212;
+    background-color: rgb(236, 235, 235);
     margin-bottom: 10px;
 }
 
@@ -54,7 +54,7 @@
 .meemz_txt{
     margin: 10px;
     background-color: grey;
-    color: white;
+    color: rgb(236, 235, 235);
     border-radius: 6px;
 }
 
