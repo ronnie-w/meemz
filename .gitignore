@@ -5,4 +5,5 @@ static/profile-pictures
 ocr_data
 
 go.sum
+server.log
 .vscode
