@@ -13,7 +13,7 @@ func SendMail(recipient string, subject string, pTc string, hTc string) {
 
 	message := mail.NewSingleEmail(from, subject, to, pTc, hTc)
 
-	client := sendgrid.NewSendClient("SENDGRID_API")
+	client := sendgrid.NewSendClient("SENDGRID_API_KEY")
 
 	_, err := client.Send(message)
 	if err != nil {

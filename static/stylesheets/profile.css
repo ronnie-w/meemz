@@ -1,0 +1,37 @@
+.meemz_profile_div {
+    padding-top: 12px;
+}
+
+.meemz_profile_details {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.meemz_profile_uploads,
+.meemz_profile_settings {
+    height: fit-content;
+    padding: 12px 0 12px 0;
+}
+
+.meemz_profile_actions>i {
+    margin: 6px;
+    cursor: pointer;
+}
+
+.fi-rr-folder {
+    color: #0096bfab;
+}
+
+.meemz_settings>h4 {
+    margin: 1px 0 1px 10px;
+}
+
+.meemz_settings>label {
+    margin-left: 10px;
+    font-size: smaller;
+}
+
+.meemz_settings>i {
+    float: right;
+    margin: 15px;
+}

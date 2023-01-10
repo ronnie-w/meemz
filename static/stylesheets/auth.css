@@ -1,0 +1,23 @@
+.meemz_auth_nav_bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    background-color: transparent;
+    border: 1px solid grey;
+    border-radius: 6px;
+}
+
+.meemz_auth_header {
+    margin: 6px;
+    border: 1px solid grey;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.meemz_auth_header>h3 {
+    margin: 6px;
+}
+
+.meemz_auth {
+    margin-top: 12px;
+}

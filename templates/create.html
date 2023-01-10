@@ -5,99 +5,83 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meemz | Create</title>
+    <meta name="theme-color" content="#202b38">
+    <meta name="description" content="Join us in making a world full of smiles">
+    
+    <script type="module" src="/static/scripts/dependencies/theme.js"></script>
 
-    <link rel="icon" href="../static/icons/favicon.ico" />
-    <link rel="apple-touch-icon" href="../static/icons/favicon.ico">
     <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/static/icons/favicon.ico" />
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="../static/stylesheets/App.css">
-    <link rel="stylesheet" href="../static/stylesheets/index.css">
-    <link rel="stylesheet" href="../static/stylesheets/BottomNav.css">
-    <link rel="stylesheet" href="../static/stylesheets/Convo.css">
-    <link rel="stylesheet" href="../static/stylesheets/ConvoCreate.css">
-    <link rel="stylesheet" href="../static/stylesheets/ConvoPage.css">
-    <link rel="stylesheet" href="../static/stylesheets/Create.css">
-    <link rel="stylesheet" href="../static/stylesheets/dark.css">
-    <link rel="stylesheet" href="../static/stylesheets/Home.css">
-    <link rel="stylesheet" href="../static/stylesheets/ImageStats.css">
-    <link rel="stylesheet" href="../static/stylesheets/PrivatePosts.css">
-    <link rel="stylesheet" href="../static/stylesheets/Profile.css">
-    <link rel="stylesheet" href="../static/stylesheets/ProfileEdit.css">
-    <link rel="stylesheet" href="../static/stylesheets/Search.css">
-    <link rel="stylesheet" href="../static/stylesheets/Signup.css">
-    <link rel="stylesheet" href="../static/stylesheets/Verify.css">
+    <link rel="stylesheet" id="color-scheme" href="">
+    <link rel="stylesheet" href="/static/stylesheets/create.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
+    <script src="/sw.js"></script>
+    <script src="/sw_init.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
-    <script src="/sw.js" defer></script>
-    <script src="/sw_init.js" defer></script>
+    <script src="/static/scripts/dependencies/qs.min.js" defer></script>
+    <script src="/static/scripts/dependencies/axios.min.js" defer></script>
+
+    <script type="module" src="/static/scripts/components/bottom_nav.js" defer></script>
+    <script type="module" src="/static/scripts/create.js" defer></script>
+
+    <title>Create</title>
 </head>
 
-<script>
-    axios.post("/fetch_user").then(res => {
-        if (res.data === null) {
-            window.location.replace("/login");
-        }
-    });
-</script>
-
 <body>
-    <div class="create">
-        <div class="convo_top">
-            <div class="home_title_div">
-                <h2 class="home_title">Meemz</h2>
-                <small class="conversations">creators</small>
-            </div>
-            <!-- <a href="/creator"><i class="fal fa-paint-brush" style="float: right; margin-top: 15px; margin-right: 15px;"></i></a> -->
+    <div class="meemz_main_title_div">
+        <div class="meemz_main_title">
+            <h1 class="meemz_title" onclick="javascript: window.location.assign('/')">comical</h1>
         </div>
-        <div class="loader" id="loader">
-            <div id="loader_init" class="loader_init"></div>
-        </div>
-        <p id="loading_info" style="text-align : center;"></p>
-        <div class="select_labels">
-            <label class="image_select_label" for="image_select">
-                <div class="image_select_label_icon"><i class="fad fa-clone"></i></div>
-            </label>
-            <label class="image_select_label" for="video_select">
-                <div class="video_select_label_icon"><i class="fad fa-play"></i></div>
-            </label>
-        </div>
-        <p id="err" class="auth_errs"></p>
-        <input id="image_select" type="file" multiple accept="image/*" style="display : none;"
-            onchange="DisplayImages()" />
-        <input id="video_select" type="file" multiple accept="video/*" style="display : none;"
-            onchange="DisplayVideos()" />
-        <div id="image_cont" class="image_container"></div>
-        <div class="configurations">
-            <div class="pinned_div">
-                <input id="pinned" class="pinned" type="text" placeholder="Pin a comment" />
-            </div>
-            <div class="tags_div">
-                <input id="tags" class="tags" type="text" placeholder="Add a tag" />
-            </div>
-        </div>
-        <label style="margin : 10px;" class="access_label" for="access">Who can view my posts?</label>
-        <select class="access_selector" id="access" name="access"
-            style="color: #121212; background-color: grey; box-shadow: .2px .2px 5px grey;">
-            <option value="Public">Public (Default)</option>
-            <option value="Private">Private (Only visible to your subscribers)</option>
-        </select>
-
-        <button id="upload_btn" class="upload_btn" onclick="Upload()">Upload</button>
-        <p
-            style="font-family: 'Comfortaa', cursive ; font-size : 12px ; color : grey ; margin : 10px ; margin-bottom : 50px;">
-            *Posts violating the Meemz <a href="/terms">terms of service</a> are automatically deleted</p>
-        <div id="bottom_nav_import"></div>
     </div>
+
+    <input type="file" id="meemz_select_file" class="meemz_select_file" accept="image/*, video/*" multiple>
+    <div class="meemz_select_div">
+        <div class="meemz_select_label">
+            <div class="meemz_select_label_text">
+                <label for="meemz_select_file" class="meemz_select_text">
+                    Open gallery
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="meemz_files_selected_div">
+        <div class="meemz_files_selected" id="meemz_files_selected"></div>
+    </div>
+
+    <div class="meemz_selected_num" id="meemz_selected_num"></div>
+
+    <input type="text" name="" id="meemz_upload_caption" placeholder="Caption">
+
+    <div class="meemz_tags_list" id="meemz_tags_list"></div>
+    <input type="text" name="" id="meemz_upload_tags" placeholder="#tag1 #tag2 #.....">
+    <p>
+        Add a link or username to credit a creator
+        <input type="text" id="meemz_upload_credits" placeholder="Credit a creator">
+    </p>
+
+    <div class="meemz_upload_type">
+        <div id="meemz_upload_single_div" class="meemz_upload_single_div">
+            <div class="meemz_upload_single">
+                <i class="fi fi-rr-picture"></i>
+                <th>upload single</th>
+            </div>
+        </div>
+
+        <div id="meemz_upload_multiple_div" class="meemz_upload_multiple_div">
+            <div class="meemz_upload_multiple">
+                <i class="fi fi-rr-gallery"></i>
+                <th>upload multiple</th>
+            </div>
+        </div>
+    </div>
+
+    <div id="meemz_upload_btn" class="meemz_upload_btn">
+        <button>Upload</button>
+    </div>
+
 </body>
-<script>
-    $("#bottom_nav_import").load("bottomNav");
-</script>
-<script src="../static/scripts/create.js"></script>
 
 </html>

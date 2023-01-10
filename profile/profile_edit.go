@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"net/mail"
+	"os"
 
 	"github.com/gorilla/schema"
 	"github.com/meemz/authentication"
@@ -11,47 +13,29 @@ import (
 	"github.com/meemz/upload"
 )
 
-type Username struct {
-	Username string
-}
-
-type Email struct {
-	Email string
-}
-
-type Bio struct {
-	Bio string
+type profileData struct {
+	Data string
 }
 
 type ProfileImg struct {
 	Dp string
 }
 
-func PostUsername(r *http.Request) *Username {
-	r.ParseForm()
-
-	username := new(Username)
-	schema.NewDecoder().Decode(username, r.PostForm)
-
-	return username
+type FileIdStruct struct {
+	FileId string
 }
 
-func PostEmail(r *http.Request) *Email {
-	r.ParseForm()
-
-	email := new(Email)
-	schema.NewDecoder().Decode(email, r.PostForm)
-
-	return email
+type Error struct {
+	Err string
 }
 
-func PostBio(r *http.Request) *Bio {
+func postData(r *http.Request) *profileData {
 	r.ParseForm()
 
-	bio := new(Bio)
-	schema.NewDecoder().Decode(bio, r.PostForm)
+	data := new(profileData)
+	schema.NewDecoder().Decode(data, r.PostForm)
 
-	return bio
+	return data
 }
 
 func PostDp(r *http.Request) *ProfileImg {
@@ -63,53 +47,145 @@ func PostDp(r *http.Request) *ProfileImg {
 	return img
 }
 
+func GetFileId(r *http.Request) *FileIdStruct {
+	r.ParseForm()
+
+	img := new(FileIdStruct)
+	schema.NewDecoder().Decode(img, r.PostForm)
+
+	return img
+}
+
 var db = database.Conn()
 
 func PostUsernameToDb(rw http.ResponseWriter, r *http.Request) {
-	username := PostUsername(r).Username
+	username := postData(r).Data
 
 	uid := authentication.ReadCookie(r)
 
-	update_row, _ := db.Query("UPDATE users SET username=? WHERE userId=?", username, uid)
+	exists := authentication.QuickCheck(username, "")
 
-	defer update_row.Close()
+	if len(username) < 3 {
+		json.NewEncoder(rw).Encode(Error{"Username characters must be three or more"})
+	} else if exists > 0 {
+		json.NewEncoder(rw).Encode(Error{"Username is taken"})
+	} else {
+		update_row, _ := db.Query("UPDATE users SET username=? WHERE userId=?", username, uid)
+
+		defer update_row.Close()
+	}
 }
 
 func PostEmailToDb(rw http.ResponseWriter, r *http.Request) {
-	email := PostEmail(r).Email
+	email := postData(r).Data
+
+	_, invalid_email := mail.ParseAddress(email)
 
 	uid := authentication.ReadCookie(r)
 
-	update_row, _ := db.Query("UPDATE users SET email=? WHERE userId=?", email, uid)
+	exists := authentication.QuickCheck("", email)
 
-	defer update_row.Close()
+	if invalid_email != nil {
+		json.NewEncoder(rw).Encode(Error{"The email you entered is invalid"})
+	} else if exists > 0 {
+		json.NewEncoder(rw).Encode(Error{"The email you entered is already in use"})
+	} else {
+		update_row, _ := db.Query("UPDATE users SET email=? WHERE userId=?", email, uid)
+
+		defer update_row.Close()
+	}
 }
 
 func PostBioToDb(rw http.ResponseWriter, r *http.Request) {
-	bio := PostBio(r).Bio
+	bio := postData(r).Data
 
 	uid := authentication.ReadCookie(r)
 
-	update_row, err := db.Query("UPDATE users SET bio=? WHERE userId=?", bio, uid)
-	if err != nil {
-		log.Println(err)
+	if len(bio) > 0 {
+		update_row, err := db.Query("UPDATE users SET bio=? WHERE userId=?", bio, uid)
+		if err != nil {
+			log.Println(err)
+		}
+	
+		defer update_row.Close()		
+	} else {
+		update_row, err := db.Query("UPDATE users SET bio=? WHERE userId=?", "No bio found", uid)
+		if err != nil {
+			log.Println(err)
+		}
+	
+		defer update_row.Close()
 	}
-
-	defer update_row.Close()
 }
 
 func ProfileUpload(rw http.ResponseWriter, r *http.Request) {
-	filename := upload.Uploader(r, "profile_img", "static/profile-pictures", "profile-image-*.jpg", 24)
+	filename := upload.Uploader(r, "profile_img", "static/profile-pictures", "profile-image-*.avif", 24)
 	json.NewEncoder(rw).Encode(filename)
 }
 
 func ProfileUpdateImg(rw http.ResponseWriter, r *http.Request) {
+	var old_dp string
 	uid := authentication.ReadCookie(r)
 	filename := PostDp(r).Dp
+
+	dp_row := db.QueryRow("SELECT profileImg FROM users WHERE userId=?", uid)
+	dp_row.Scan(&old_dp)
+
+	if old_dp != "blank-profile-picture-973460_1280.png" {
+		err := os.Remove("static/profile-pictures/" + old_dp + "")
+		if err != nil {
+			log.Println(err)
+		}
+	}
 	rows, err := db.Query("UPDATE users SET profileImg=? WHERE userId=?", filename, uid)
 	if err != nil {
 		log.Println(err)
 	}
 
 	defer rows.Close()
+}
+
+func DeletePost(rw http.ResponseWriter, r *http.Request) {
+	var file_name_arr []string
+
+	uid := authentication.ReadCookie(r)
+	file_id := GetFileId(r).FileId
+
+	file_name_row, _ := db.Query("SELECT fileName FROM posts WHERE fileId=?", file_id)
+	for file_name_row.Next() {
+		var file_name string
+		file_name_row.Scan(&file_name)
+
+		file_name_arr = append(file_name_arr, file_name)
+	}
+
+	posts, _ := db.Query("DELETE FROM posts WHERE fileId=?", file_id)
+	comments, _ := db.Query("DELETE FROM comments WHERE fileId=?", file_id)
+	comment_likes, _ := db.Query("DELETE FROM commentReplyLikes WHERE fileId=?", file_id)
+	replies, _ := db.Query("DELETE FROM replies WHERE fileId=?", file_id)
+	//reports, _ = db.Query("DELETE FROM reports WHERE fileId=?", file_id)
+
+	defer posts.Close()
+	defer comments.Close()
+	defer comment_likes.Close()
+	defer replies.Close()
+
+	for _, file := range file_name_arr {
+		meemz_file_dir := "static/meemz_uploads/" + file + ""
+		veemz_file_dir := "static/veemz_uploads/" + file + ""
+
+		if uid != "" {
+			err := os.Remove(meemz_file_dir)
+			if err != nil {
+				err := os.Remove(veemz_file_dir)
+				if err != nil {
+					json.NewEncoder(rw).Encode(Error{"Could not delete post. Try again"})
+				}
+			}
+		} else {
+			json.NewEncoder(rw).Encode(Error{"User authentication failed. You can't delete this post"})
+		}
+	}
+
+	defer file_name_row.Close()
 }

@@ -1,8 +1,12 @@
 package upload
 
 import (
+	"bytes"
+	"crypto/rand"
 	"encoding/json"
 	"fmt"
+	"image"
+	"image/jpeg"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -10,9 +14,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/meemz/activities"
 	"github.com/meemz/authentication"
-	"github.com/meemz/gcv"
+	//"github.com/meemz/ocr"
+	//"github.com/meemz/gcv"
 )
 
 type File struct {
@@ -21,7 +25,58 @@ type File struct {
 
 var wg sync.WaitGroup
 
+var file_id, _ = rand.Prime(rand.Reader, 70)
+
 func Uploader(r *http.Request, formFileName string, tempFileDir string, tempFileName string, fileNameSplice int) string {
+	fileBytes := new(bytes.Buffer)
+
+	r.ParseMultipartForm(100)
+
+	file, handler, err := r.FormFile(formFileName)
+	if err != nil {
+		log.Println(err)
+	}
+
+	defer file.Close()
+
+	file_ext := handler.Header.Values("Content-Type")[0][6:]
+
+	fmt.Println(handler.Filename, handler.Size, handler.Header.Values("Content-Type")[0][6:])
+
+	tempFile, err := ioutil.TempFile(tempFileDir, tempFileName)
+	if err != nil {
+		log.Println(err)
+	}
+
+	defer tempFile.Close()
+
+	if (file_ext == "jpeg" || file_ext == "jpg") && handler.Size > 20*1024 {
+		img, _, err := image.Decode(file)
+		if err != nil {
+			log.Println("Image decode error")
+		}
+
+		err = jpeg.Encode(fileBytes, img, &jpeg.Options{
+			Quality: 20,
+		})
+		if err != nil {
+			log.Println("JPEG encode err", err)
+		}
+	} else {
+		f_io_bytes, _ := ioutil.ReadAll(file)
+		fileBytes = bytes.NewBuffer(f_io_bytes)
+	}
+
+	if _, err := tempFile.Write(fileBytes.Bytes()); err != nil {
+		log.Println(err)
+	}
+
+	fileName := tempFile.Name()[fileNameSplice:]
+
+	return fileName
+}
+
+func VeemzUploader(r *http.Request, formFileName string, tempFileDir string, tempFileName string, fileNameSplice int) string {
 	r.ParseMultipartForm(100)
 
 	file, handler, err := r.FormFile(formFileName)
@@ -55,20 +110,22 @@ func Uploader(r *http.Request, formFileName string, tempFileDir string, tempFile
 
 func UploadMeemz(rw http.ResponseWriter, r *http.Request) {
 	userId := authentication.ReadCookie(r)
-	fileName := Uploader(r, "meemz_upload", "static/uploads", "meemz-*.webp", 15)
+	fileName := Uploader(r, "meemz_upload", "static/meemz_uploads", "meemz-*.jpg", 21)
 
-	file_dir := "static/uploads/" + fileName + ""
+	file_dir := "static/meemz_uploads/" + fileName + ""
 
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		uploadTime := time.Now().Format(time.RFC822)
-		labelOcr := gcv.LabelOcr(file_dir)
-		logoOcr := gcv.LogoOcr(file_dir)
-		faceOcr := gcv.FaceOcr(file_dir)
-		landmarkOcr := gcv.LandmarkOcr(file_dir)
-		textOcr := gcv.TextOcr(file_dir)
-		safeSearchOcr, adultContent, violentContent := gcv.SafeSearchOcr(file_dir)
+		uploadTime := time.Now().Format(time.RFC3339)
+		labelOcr := /*gcv.LabelOcr(file_dir)*/ "some functioning values"
+		logoOcr := /*gcv.LogoOcr(file_dir)*/ "some functioning values"
+		faceOcr := /*gcv.FaceOcr(file_dir)*/ "some functioning values"
+		landmarkOcr := /*gcv.LandmarkOcr(file_dir)*/ "some functioning values"
+		textOcr := /*gcv.TextOcr(file_dir)*/ "some functioning values"
+		safeSearchOcr := "some functioning values"
+		adultContent := "some functioning values"
+		violentContent := /*gcv.SafeSearchOcr(file_dir)*/ "some functioning values"
 		possibleDuplicate, duplicateNum := DuplicateCheck(r, textOcr)
 
 		if adultContent == "VERY_LIKELY" || adultContent == "LIKELY" || violentContent == "VERY_LIKELY" || violentContent == "LIKELY" || possibleDuplicate == "Yes" {
@@ -77,7 +134,7 @@ func UploadMeemz(rw http.ResponseWriter, r *http.Request) {
 				log.Println(err)
 			}
 		} else {
-			rows, err := db.Query("INSERT INTO posts(userId,imgName,labelOcr,logoOcr,faceOcr,landmarkOcr,textOcr,safeSearchOcr,possibleDuplicate,duplicateNum,uploadTime) values(?,?,?,?,?,?,?,?,?,?,?)", userId, fileName, labelOcr, logoOcr, faceOcr, landmarkOcr, textOcr, safeSearchOcr, possibleDuplicate, duplicateNum, uploadTime)
+			rows, err := db.Query("INSERT INTO posts(userId,fileName,labelOcr,logoOcr,faceOcr,landmarkOcr,textOcr,safeSearchOcr,possibleDuplicate,duplicateNum,uploadTime) values(?,?,?,?,?,?,?,?,?,?,?)", userId, fileName, labelOcr, logoOcr, faceOcr, landmarkOcr, textOcr, safeSearchOcr, possibleDuplicate, duplicateNum, uploadTime)
 			if err != nil {
 				log.Println(err)
 			}
@@ -85,30 +142,29 @@ func UploadMeemz(rw http.ResponseWriter, r *http.Request) {
 			defer rows.Close()
 		}
 
-		activities.Notify(r, "Fresh Meemz just dropped. Catch up with the latest from your favourites")
 		json.NewEncoder(rw).Encode(File{fileName})
 	}()
 	wg.Wait()
 }
 
-func UploadVeemz(rw http.ResponseWriter, r *http.Request)  {
+func UploadVeemz(rw http.ResponseWriter, r *http.Request) {
 	userId := authentication.ReadCookie(r)
-	fileName := Uploader(r, "veemz_upload", "static/veemz_uploads", "veemz-*.mp4", 21)
+	fileName := VeemzUploader(r, "veemz_upload", "static/veemz_uploads", "veemz-*.mp4", 21)
 
 	file_dir := "static/veemz_uploads/" + fileName + ""
 
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		uploadTime := time.Now().Format(time.RFC822)
-		IsExplicit := gcv.ExplicitVideoContent(file_dir)
+		uploadTime := time.Now().Format(time.RFC3339)
+		IsExplicit := /*gcv.ExplicitVideoContent(file_dir)*/ false
 
 		if IsExplicit {
 			if err := os.Remove(file_dir); err != nil {
 				log.Println(err)
 			}
 		} else {
-			rows, err := db.Query("INSERT INTO veemz(userId,vidName,uploadTime) values(?,?,?)", userId, fileName, uploadTime)
+			rows, err := db.Query("INSERT INTO posts(userId,fileName,uploadTime) values(?,?,?)", userId, fileName, uploadTime)
 			if err != nil {
 				log.Println(err)
 			}
@@ -116,36 +172,64 @@ func UploadVeemz(rw http.ResponseWriter, r *http.Request)  {
 			defer rows.Close()
 		}
 
-		activities.Notify(r, "Fresh Veemz just dropped. Catch up with the latest from your favourites")
 		json.NewEncoder(rw).Encode(File{fileName})
 	}()
 	wg.Wait()
 }
 
-// func UploadVoiceNote(rw http.ResponseWriter , r *http.Request)  {
-// 	fileName := Uploader(r , "meemz_voice_note" , "meemz/public/convo_uploads/voice_notes" , "meemz_voice_note-*.mp3" , 39)
-
-// 	json.NewEncoder(rw).Encode(File{fileName})
-// }
-
-func UploadConvoImages(rw http.ResponseWriter, r *http.Request) {
-	fileName := Uploader(r, "meemz_convo_images", "static/convo_uploads/image_uploads", "meemz_convo_images-*.png", 35)
-
-	json.NewEncoder(rw).Encode(File{fileName})
-}
-
 func UpdateMeemzConfig(rw http.ResponseWriter, r *http.Request) {
 	config := FormConfig(r)
 
-	update_row, _ := db.Query("UPDATE posts SET tags=?, pComment=?, access=? WHERE imgName=?", config.Tags, config.Pinned, config.Access, config.FileName)
+	file_dir := "static/meemz_uploads/" + config.FileName + ""
+	exists := CheckOriginalName(config.OriginalName)
 
-	defer update_row.Close()
+	if !exists && config.UploadType == "multiple" {
+		update_row, _ := db.Query("UPDATE posts SET tags=?, pComment=?, credits=?, originalName=?, fileId=?, fileIndex=? WHERE fileName=?", config.Tags, config.Pinned, config.Credits, config.OriginalName, file_id.String(), config.FileIndex, config.FileName)
+		defer update_row.Close()
+	} else if !exists && config.UploadType == "single" {
+		new_img_id, _ := rand.Prime(rand.Reader, 70)
+		update_row, _ := db.Query("UPDATE posts SET tags=?, pComment=?, credits=?, originalName=?, fileId=?, fileIndex=? WHERE fileName=?", config.Tags, config.Pinned, config.Credits, config.OriginalName, new_img_id.String(), config.FileIndex, config.FileName)
+		defer update_row.Close()
+	} else {
+		err := os.Remove(file_dir)
+		if err != nil {
+			log.Println(err)
+		}
+
+		_ = db.QueryRow("DELETE FROM posts WHERE fileName=?", config.FileName)
+	}
+
+	json.NewEncoder(rw).Encode(File{"Upload complete"})
 }
 
 func UpdateVeemzConfig(rw http.ResponseWriter, r *http.Request) {
 	config := FormConfig(r)
 
-	update_row, _ := db.Query("UPDATE veemz SET tags=?, pComment=?, access=? WHERE vidName=?", config.Tags, config.Pinned, config.Access, config.FileName)
+	file_dir := "static/veemz_uploads/" + config.FileName + ""
+	exists := CheckOriginalName(config.OriginalName)
 
-	defer update_row.Close()
+	if !exists && config.UploadType == "multiple" {
+		update_row, _ := db.Query("UPDATE posts SET tags=?, pComment=?, credits=?, originalName=?, fileId=?, fileIndex=? WHERE fileName=?", config.Tags, config.Pinned, config.Credits, config.OriginalName, file_id.String(), config.FileIndex, config.FileName)
+		defer update_row.Close()
+	} else if !exists && config.UploadType == "single" {
+		new_vid_id, _ := rand.Prime(rand.Reader, 70)
+
+		update_row, _ := db.Query("UPDATE posts SET tags=?, pComment=?, credits=?, originalName=?, fileId=?, fileIndex=? WHERE fileName=?", config.Tags, config.Pinned, config.Credits, config.OriginalName, new_vid_id.String(), config.FileIndex, config.FileName)
+		defer update_row.Close()
+	} else {
+		err := os.Remove(file_dir)
+		if err != nil {
+			log.Println(err)
+		}
+
+		_ = db.QueryRow("DELETE FROM posts WHERE fileName=?", config.FileName)
+	}
+
+	json.NewEncoder(rw).Encode(File{"Upload complete"})
+}
+
+func GenerateNewId(rw http.ResponseWriter, r *http.Request) {
+	file_id, _ = rand.Prime(rand.Reader, 70)
+
+	json.NewEncoder(rw).Encode(File{"GENERATED"})
 }

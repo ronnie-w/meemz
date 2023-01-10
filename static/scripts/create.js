@@ -1,214 +1,142 @@
-var qs = Qs;
+import { upload, upload_config, get_req } from "./modules/dialer.js";
+import { default as error_dialog, media_dialog, plain_dialog, loading_dialog } from "./modules/dialog.js";
+import button_loader from "./modules/loader.js";
 
-const image_select = document.getElementById("image_select");
-const video_select = document.getElementById("video_select");
-const access = document.getElementById("access");
-const pinned = document.getElementById("pinned");
-const tags = document.getElementById("tags");
-const image_cont = document.getElementById("image_cont");
-const err = document.getElementById("err");
-const loading_info = document.getElementById("loading_info");
-const upload_btn = document.getElementById("upload_btn");
-const loader_init = document.getElementById("loader_init");
+const display_div = document.getElementById("meemz_files_selected"),
+   upload_btn = document.getElementById("meemz_upload_btn"),
+   upload_single = document.getElementById("meemz_upload_single_div"),
+   upload_multiple = document.getElementById("meemz_upload_multiple_div"),
+   upload_caption = document.getElementById("meemz_upload_caption"),
+   upload_tags = document.getElementById("meemz_upload_tags"),
+   upload_credits = document.getElementById("meemz_upload_credits"),
+   upload_num = document.getElementById("meemz_selected_num");
 
-axios.post("/fetch_user").then(res => {
-    switch (res.data.IsVerified) {
-        case "Yes":
-            break;
-        case "No":
-            window.location.assign("/verify");
-            break;
-        default:
-            break;
-    }
+var file_input = document.getElementById("meemz_select_file"),
+   upload_type = "single";
+
+const file_format = (file_element, file, files_length, i) => {
+   let reader = new FileReader();
+
+   file_element.style.borderRadius = "6px";
+   file_element.style.height = "200px";
+   file_element.style.margin = "10px";
+
+   function file_reader() {
+      reader.onload = () => {
+         file_element.setAttribute("src", reader.result);
+      }
+
+      reader.readAsDataURL(file);
+
+      file_element.setAttribute("id", `${file_input.files[i].name}`);
+
+      display_div.append(file_element);
+
+      file_element.addEventListener("click", () => {
+         media_dialog(file_input.files[i], file_element.getAttribute("src"), file.name, file.type, file.size, i);
+      });
+   }
+
+   (files_length > 3) ? file_element.style.flex = "33%" : null;
+
+   file_reader();
+}
+
+file_input.addEventListener("change", () => {
+   if (display_div.hasChildNodes()) {
+      let first_el = display_div.firstElementChild;
+      while (first_el) {
+         first_el.remove();
+         first_el = display_div.firstElementChild;
+      }
+   }
+
+   display_div.style.display = "flex";
+
+   for (let i = 0; i < file_input.files.length; i++) {
+      let file_type = file_input.files[i].type,
+         file;
+
+      if (file_type.includes("image")) {
+         file = document.createElement("img");
+         file_format(file, file_input.files[i], file_input.files.length, i);
+      } else {
+         file = document.createElement("video");
+         file_format(file, file_input.files[i], file_input.files.length, i);
+      }
+   }
+
+   file_input.files.length > 1 || file_input.files.length < 1 ?
+      upload_num.innerHTML = `<p>${file_input.files.length} files selected</p>` :
+      upload_num.innerHTML = `<p>${file_input.files.length} file selected</p>`;
+
 });
 
-function UploadImages() {
-    upload_btn.setAttribute('disabled', 'disabled');
-    loading_info.innerText = "";
-    loader_init.style.display = "block";
-    const refreshRate = 1000 / 50;
-    const maxXPosition = 85;
-    let speedX = 1;
-    let positionX = 0;
+function upload_changer(type, upload_single_color, upload_multiple_color, message) {
+   upload_type = type;
+   upload_single.style.border = `1px solid ${upload_single_color}`;
+   upload_multiple.style.border = `1px solid ${upload_multiple_color}`;
+   plain_dialog(message);
 
-    window.setInterval(() => {
-        positionX = positionX + speedX;
-        if (positionX > maxXPosition || positionX < 0) {
-            speedX = speedX * (-1);
-        }
-        loader_init.style.left = positionX + '%';
-    }, refreshRate);
+   console.log(upload_type);
+}
 
-    let uploaded = [];
-    for (var i = 0; i < image_select.files.length; i++) {
-        function Config(filename) {
-            axios.post('/update_meemz_config', qs.stringify({
-                Access: access.value,
-                Pinned: pinned.value.trim(),
-                Tags: tags.value.trim().toLowerCase(),
-                Filename: filename
-            }), {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }).then(res => {
-                uploaded.push(res.data.Name);
-                if (uploaded.length == image_select.files.length) {
-                    upload_btn.setAttribute('disabled', 'disabled');
-                    loading_info.innerText = "Upload complete"
-                    loader_init.style.display = "none";
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 2000);
-                } else {
-                    loading_info.innerText = "Uploading... Please be patient"
-                }
+upload_single.addEventListener("click", () => {
+   upload_changer("single", "#0096bfab", "grey", "Posts will be shown separately");
+});
+
+upload_multiple.addEventListener("click", () => {
+   upload_changer("multiple", "grey", "#0096bfab", "All files will be displayed as a single post");
+});
+
+upload_btn.addEventListener("click", () => {
+   button_loader(upload_btn);
+
+   if (file_input.files.length > 0) {
+      let dialog = loading_dialog(),
+         upload_res,
+         upload_config_res,
+         file,
+         file_type,
+         file_input_size = file_input.files.length,
+         default_uploader = (upload_url, file, filename, config_url, pinned, tags, credits, original_name, i) => {
+            upload_res = upload(upload_url, file, filename);
+
+            upload_res.then(res => {
+               if (res.data.Name !== "") {
+                  upload_config_res = upload_config(res.data.Name, config_url, pinned, tags, credits, original_name, upload_type, i);
+                  upload_config_res.then(res => {
+                     if (res.data.Name === "Upload complete") {
+                        file_input_size--;
+                        console.log(file_input_size);
+
+                        if (file_input_size == 0) {
+                           console.log("DONE");
+                           get_req("/generate_new_id").then(res => {
+                              if (res.data.Name === "GENERATED") {
+                                 dialog.remove();
+                                 window.location.reload();
+                              }
+                           });
+                        }
+                     }
+                  });
+               }
             });
-        }
+         };
 
-        const formData = new FormData();
-        formData.append("meemz_upload", image_select.files[i]);
+      for (let i = 0; i < file_input.files.length; i++) {
+         file = file_input.files[i];
+         file_type = file.type;
 
-        axios.post('/upload_meemz', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then(res => {
-            if (res.data.Name !== "") {
-                Config(res.data.Name);
-            }
-        }).catch(err => {
-            if (err) {
-                throw err;
-            }
-        });
-    }
-}
+         if (file_type.includes("image")) {
+            default_uploader("/upload_meemz", file, "meemz_upload", "/update_meemz_config", upload_caption.value.trim(), upload_tags.value.trim().toLocaleLowerCase(), upload_credits.value.trim(), file.name, i);
+         } else {
+            default_uploader("/upload_veemz", file, "veemz_upload", "/update_veemz_config", upload_caption.value.trim(), upload_tags.value.trim().toLocaleLowerCase(), upload_credits.value.trim(), file.name, i);
+         }
+      }
 
-function UploadVideos() {
-    upload_btn.setAttribute('disabled', 'disabled');
-    loading_info.innerText = "";
-    loader_init.style.display = "block";
-    const refreshRate = 1000 / 50;
-    const maxXPosition = 85;
-    let speedX = 1;
-    let positionX = 0;
-
-    window.setInterval(() => {
-        positionX = positionX + speedX;
-        if (positionX > maxXPosition || positionX < 0) {
-            speedX = speedX * (-1);
-        }
-        loader_init.style.left = positionX + '%';
-    }, refreshRate);
-
-    let uploaded = [];
-    for (var i = 0; i < video_select.files.length; i++) {
-        function Config(filename) {
-            axios.post('/update_veemz_config', qs.stringify({
-                Access: access.value,
-                Pinned: pinned.value.trim(),
-                Tags: tags.value.trim().toLowerCase(),
-                Filename: filename
-            }), {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }).then(res => {
-                uploaded.push(res.data.Name);
-                if (uploaded.length == video_select.files.length) {
-                    upload_btn.setAttribute('disabled', 'disabled');
-                    loading_info.innerText = "Upload complete"
-                    loader_init.style.display = "none";
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 2000);
-                } else {
-                    loading_info.innerText = "Uploading... Please be patient"
-                }
-            });
-        }
-
-        const formData = new FormData();
-        formData.append("veemz_upload", video_select.files[i]);
-
-        axios.post('/upload_veemz', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then(res => {
-            if (res.data.Name !== "") {
-                Config(res.data.Name);
-            }
-        }).catch(err => {
-            if (err) {
-                throw err;
-            }
-        });
-    }
-}
-
-function Upload() {
-    window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-    });
-
-    if (image_select.files.length > 0) {
-        UploadImages();
-    } else if (video_select.files.length > 0) {
-        UploadVideos();
-    } else {
-        err.innerHTML = `<small style="background-color : transparent ; font-family : 'Maven Pro', sans-serif ; color : red;">Choose an image or video to proceed</small>`;
-        err.style.animation = "headShake";
-        err.style.animationDuration = "800ms";
-    }
-}
-
-function DisplayImages() {
-    $(image_cont).empty();
-    for (let i of image_select.files) {
-        let reader = new FileReader();
-        let img = document.createElement("img");
-
-        img.style.flex = "33%";
-        img.style.width = "200px";
-        img.style.height = "200px";
-        img.style.margin = "10px";
-        img.style.borderRadius = "6px";
-        img.style.boxShadow = ".2px .2px 5px grey";
-
-        reader.onload = () => {
-            img.setAttribute("src", reader.result);
-        }
-        image_cont.appendChild(img);
-        reader.readAsDataURL(i);
-    }
-}
-
-function DisplayVideos() {
-    $(image_cont).empty();
-    for (let i of video_select.files) {
-        let reader = new FileReader();
-        let vid = document.createElement("video");
-
-        vid.style.flex = "33%";
-        vid.style.width = "200px";
-        vid.style.height = "200px";
-        vid.style.margin = "10px";
-        vid.style.borderRadius = "6px";
-        vid.style.boxShadow = ".2px .2px 5px grey";
-
-        vid.setAttribute("controls", "controls");
-
-        reader.onload = () => {
-            vid.setAttribute("src", reader.result);
-        }
-        image_cont.appendChild(vid);
-        reader.readAsDataURL(i);
-
-        console.log(vid);
-    }
-}
+   } else {
+      error_dialog("Select files to proceed");
+   }
+});

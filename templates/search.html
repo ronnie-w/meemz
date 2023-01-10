@@ -5,94 +5,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meemz | Search</title>
+    <meta name="theme-color" content="#202b38">
+    <meta name="description" content="Join us in making a world full of smiles">
+    
+    <script type="module" src="/static/scripts/dependencies/theme.js"></script>
 
-    <link rel="icon" href="../static/icons/favicon.ico" />
-    <link rel="apple-touch-icon" href="../static/icons/favicon.ico">
     <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/static/icons/favicon.ico" />
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="../static/stylesheets/App.css">
-    <link rel="stylesheet" href="../static/stylesheets/index.css">
-    <link rel="stylesheet" href="../static/stylesheets/BottomNav.css">
-    <link rel="stylesheet" href="../static/stylesheets/Convo.css">
-    <link rel="stylesheet" href="../static/stylesheets/ConvoCreate.css">
-    <link rel="stylesheet" href="../static/stylesheets/ConvoPage.css">
-    <link rel="stylesheet" href="../static/stylesheets/Create.css">
-    <link rel="stylesheet" href="../static/stylesheets/dark.css">
-    <link rel="stylesheet" href="../static/stylesheets/Home.css">
-    <link rel="stylesheet" href="../static/stylesheets/ImageStats.css">
-    <link rel="stylesheet" href="../static/stylesheets/PrivatePosts.css">
-    <link rel="stylesheet" href="../static/stylesheets/Profile.css">
-    <link rel="stylesheet" href="../static/stylesheets/ProfileEdit.css">
-    <link rel="stylesheet" href="../static/stylesheets/Search.css">
-    <link rel="stylesheet" href="../static/stylesheets/Signup.css">
-    <link rel="stylesheet" href="../static/stylesheets/Verify.css">
+    <link rel="stylesheet" id="color-scheme" href="">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
+    <script src="/sw.js"></script>
+    <script src="/sw_init.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
-    <script src="/sw.js" defer></script>
-    <script src="/sw_init.js" defer></script>
+    <script src="/static/scripts/dependencies/qs.min.js" defer></script>
+    <script src="/static/scripts/dependencies/axios.min.js" defer></script>
+
+    <script type="module" src="/static/scripts/components/bottom_nav.js" defer></script>
+    <title>Search</title>
 </head>
 
-<script>
-    axios.post("/fetch_user").then(res =>{
-        if (res.data === null) {
-            window.location.replace("/login");
-        }
-    });
-</script>
-
 <body>
-    <div class="search">
-        <div class="search_top_bar">
-            <i id="spinner" class="search_spinner fal fa-spinner-third fa-spin" style="display: none;"></i>
-            <div id="search_input_div" class="search_input_div">
-                <i class="search_icon fal fa-search"></i>
-                <input id="search_input" class="search_input" type="text" placeholder="Type something..."
-                    onfocus="Focus()" oninput="FetchRequests()" autocomplete="off" />
-            </div>
+    <div class="meemz_main_title_div">
+        <div class="meemz_main_title">
+            <h1 class="meemz_title" onclick="javascript: window.location.assign('/')">comical</h1>
         </div>
-        <div class="search_options" id="search_options">
-            <div class="search_meemz" onclick="ToggleSearch('meemz_results' , 'meemz_c')">
-                <p class="meemz_txt" id="meemz_c" style="color : #121212;">Meemz</p>
-            </div>
-            <div class="search_meemz" onclick="ToggleSearch('tags_results' , 'tags_c')">
-                <p class="meemz_txt" id="tags_c">Tags</p>
-            </div>
-            <div class="search_meemz" onclick="ToggleSearch('accounts_results' , 'acc_c')">
-                <p class="meemz_txt" id="acc_c">Accounts</p>
-            </div>
-        </div>
-
-        <div class="meemz_results">
-            <div class="content_div meemz_results_div" style="padding-top : 110px;">
-            </div>
-            <p id="meemz_eof" style="margin-top : 40px ; color : grey; display : grid ; place-content : center ; width : 100% ;"></p>
-        </div>
-
-        <div class="tags_results" style="display : none;">
-            <div class="content_div tags_results_div" style="padding-top : 110px;">
-            </div>
-            <p id="tags_eof" style="padding-top : 40px ; color : grey; display : grid ; place-content : center ; width : 100% ;"></p>
-        </div>
-
-
-        <div class="results_center" style="display : flex ; justify-content : center ; align-items : center;">
-            <div class="accounts_results"
-                style="display : none ; flex-wrap : wrap ; justify-content : space-between ; padding-top : 110px ; margin-bottom : 50px;">
-            </div>
-        </div>
-
-        <div id="bottom_nav_import"></div>
     </div>
 </body>
-<script>
-    $("#bottom_nav_import").load("bottomNav");
-</script>
-<script src="../static/scripts/search.js"></script>
 
 </html>

@@ -1,29 +1,38 @@
-var qs = Qs;
+import { get_req } from "./modules/dialer.js";
+import notification_component from "./components/notification.js";
 
-let notifications;
+let start_index = 0,
+    meemz_notifications_count = document.getElementById("meemz_notifications_count");
 
-axios.post("/notifications_go").then(res => {
-    if (res.data === null) {
-        notifications_div.innerHTML = "<div style='width : 100%; display : grid; place-content : center; margin-top : 50px;'><p>You have no new notifications</p></div>"
-    } else {
-        notifications = res.data;
+(_ => {
+    get_req("/fetch_notifications").then(res => {
+        res.data.length == 0 || res.data == undefined 
+            ? meemz_notifications_count.innerText = "You have no new notifications" 
+            : res.data.length == 1 
+                ? meemz_notifications_count.innerText = `You have ${res.data.length} unread notification` 
+                : meemz_notifications_count.innerText = `You have ${res.data.length} unread notifications`;
+        res.data = res.data.reverse();
+        function DisplayNotification() {
+            let notification = notification_component(res.data[start_index]),
+                observer = new IntersectionObserver(
+                    entries => {
+                        entries.map(entry => {
+                            if (entry.isIntersecting) {
+                                DisplayNotification();
+                                observer.unobserve(notification);
+                            }
+                        });
+                    }, {
+                    threshold: 1.0
+                }
+                );
 
-        notifications.forEach(n =>{
-            $("#notifications_div").append(
-                `<div style="margin-bottom : 50px ; margin-top : 10px;" class="n_div">
-                <h6 style="margin-left : 5px; color: #121212;">Received on ${n.ReceiveTime}</h6>
-                <img src="/static/profile-pictures/${n.ProfileImg}" alt="notification_banner" style="width : 35px ; height : 35px ; border-radius : 200px ; float : left ; margin-left : 5px ; margin-top : 7px ; border : 2px solid rgb(236, 235, 235);" />
-                <p style="color : grey ; float : left ; background-color : transparent ; font-size : 12px ; margin-top : 7px ; margin-left : 5px ; text-shadow : .5px .5px 7px grey;">${n.Username}</p>
-                <br/>
-                <div style="width : 100% ; background-color : transparent;">
-                    <p style="background-color : transparent ; color : #121212 ; font-size : 15px ; max-width : 300px ; margin-top : 5px ; word-wrap : break-word ; margin-left : 48px;">${n.Notify}</p>
-                </div>
-                </div>`
-            );
-        });
-    }
-});
+            if (start_index < res.data.length - 1) {
+                start_index++;
+                observer.observe(notification);
+            }
+        }
 
-window.addEventListener("DOMContentLoaded", () =>{
-    axios.post("/delete_notifications");
-});
+        DisplayNotification();
+    });
+})();

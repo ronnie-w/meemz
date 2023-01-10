@@ -5,61 +5,107 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meemz | Home</title>
+    <meta name="theme-color" content="#202b38">
+    <meta name="description" content="Join us in making a world full of smiles">
 
-    <link rel="icon" href="../static/icons/favicon.ico" />
-    <link rel="apple-touch-icon" href="../static/icons/favicon.ico">
+    <script type="module" src="/static/scripts/dependencies/theme.js"></script>
+
     <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/static/icons/favicon.ico" />
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="../static/stylesheets/App.css">
-    <link rel="stylesheet" href="../static/stylesheets/index.css">
-    <link rel="stylesheet" href="../static/stylesheets/BottomNav.css">
-    <link rel="stylesheet" href="../static/stylesheets/dark.css">
-    <link rel="stylesheet" href="../static/stylesheets/Home.css">
-    <link rel="stylesheet" href="../static/stylesheets/ImageStats.css">
+    <link rel="stylesheet" id="color-scheme" href="">
+    <link rel="stylesheet" href="/static/stylesheets/animate.min.css">
+    
+    <script src="/sw.js"></script>
+    <script src="/sw_init.js"></script>
 
+    <script src="/static/scripts/dependencies/qs.min.js" defer></script>
+    <script src="/static/scripts/dependencies/axios.min.js" defer></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
-    <script src="/sw.js" defer></script>
-    <script src="/sw_init.js" defer></script>
+    <script type="module" src="/static/scripts/components/bottom_nav.js" defer></script>
+    <script src="/static/scripts/home.js" defer></script>
+    <title>Home</title>
 </head>
 
-<script>
-    axios.post("/fetch_user").then(res =>{
-        if (res.data === null) {
-            window.location.replace("/login");
-        }
-    });
-</script>
-
 <body>
-    <div class="home">
-        <div class="home_topbar">
-            <div class="home_title_div">
-                <h2 class="home_title">Meemz</h2>
-            </div>
-            <div class="home_topbar_icons">
-                <a href="/notifications"><i id="notify" class="fal fa-bell"></i></a>
-            </div>
+    <div class="meemz_main_title_div" style="margin-bottom: 48px;">
+        <div class="meemz_main_title">
+            <h1 class="meemz_title" onclick="javascript: window.location.assign('/')">comical</h1>
         </div>
-        <div class="loading_animation">
-            <i class="fal fa-spinner-third fa-spin" style="font-size : 40px ; color : aqua;"></i>
-        </div>
-        <div class="content_div" style="padding-top : 65px;">
-            <button style="margin-bottom : 50px; background-color : aqua; font-size : 10px;"
-                onclick="javascript:window.location.assign('/')"><i style="color : #121212;"
-                    class="fad fa-redo-alt"></i></button>
-        </div>
-        <div id="bottom_nav_import"></div>
     </div>
+
+    <div class="meemz_home_card">
+        <div class="meemz_home_content">
+            <!-- meemz-3368774691.jpg -->
+            <img src="/static/meemz_uploads/meemz-3368774691.jpg">
+            <!-- <video src="/static/veemz_uploads/veemz-1640388315.mp4" controls></video> -->
+        </div>
+        <div class="meemz_content_actions">
+            <div class="meemz_content_rating">
+                <i class="fi fi-rr-arrow-alt-square-up" id="home_rating_up"></i>
+                <i class="fi fi-rr-arrow-alt-square-down" id="home_rating_down"></i>
+            </div>
+            <div class="meemz_content_activities">
+                <i class="fi fi-rr-comment"></i>
+                <i class="fi fi-rr-download"></i>
+                <i class="fi fi-rr-redo"></i>
+                <i class="fi fi-rr-info"></i>
+            </div>
+        </div>
+    </div>
+
+    <script defer>
+
+    </script>
+
+    <style>
+        .meemz_home_card {
+            margin-bottom: 24px;
+            box-shadow: var(--border) 0px 0px 7px;
+            border-radius: 6px;
+        }
+
+        .meemz_home_content {
+            display: grid;
+            place-content: center;
+            background-color: var(--background-alt);
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+        .meemz_home_content>img {
+            max-height: 40vh;
+            width: 100%;
+        }
+
+        .meemz_home_content>video {
+            max-height: 70vh;
+            width: 100%;
+        }
+
+        .meemz_content_actions {
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .meemz_content_rating {
+            border: 1px solid var(--border);
+            width: fit-content;
+            border-radius: 6px;
+        }
+
+        .meemz_content_rating>i,
+        .meemz_content_activities>i {
+            font-size: 20px;
+            margin: 12px;
+            cursor: pointer;
+        }
+    </style>
+    <!-- 
+    <a href="/login">Login
+    <a href="/comments/1032854123191184087863">Comments -->
 </body>
-<script>
-    $("#bottom_nav_import").load("bottomNav");
-</script>
-<script src="../static/scripts/home.js"></script>
+
 </html>

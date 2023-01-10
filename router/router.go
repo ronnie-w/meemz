@@ -17,40 +17,39 @@ func Routes() *mux.Router {
 	mux := mux.NewRouter()
 
 	templates := map[string]func(http.ResponseWriter, *http.Request){
-		"/":                parser.Home,
-		"/bottomNav":       parser.BottomNav,
-		"/layout":          parser.Layout,
-		"/signup":          parser.Signup,
-		"/login":           parser.Login,
-		"/terms":           parser.Terms,
-		"/verify":          parser.Verify,
-		"/profile":         parser.Profile,
-		"/private_posts":   parser.PrivatePosts,
-		"/profile_edit":    parser.ProfileEdit,
-		"/create":          parser.Create,
-		"/creator":         parser.Creator,
-		"/veemz":			parser.Veemz,
-		"/search":          parser.Search,
-		"/notifications":   parser.Notifications,
-		"/forgot_password": parser.ForgotPassword,
+		"/":       parser.Parser("home"),
+		"/signup": parser.Parser("signup"),
+		"/login":  parser.Parser("login"),
+		// "/terms":           parser.Terms,
+		"/verify":  parser.Parser("verify"),
+		"/profile": parser.Parser("profile"),
+		// "/private_posts":   parser.PrivatePosts,
+		// "/profile_edit":    parser.ProfileEdit,
+		"/create":             parser.Parser("create"),
+		"/search":             parser.Parser("search"),
+		"/notifications":      parser.Parser("notifications"),
+		"/comments/{file_id}": parser.Parser("comments"),
+		"/forgot_password":    parser.Parser("forgot_password"),
+		"/verify_passcode":    parser.Parser("verify_passcode"),
+		"/password_reset":     parser.Parser("password_reset"),
 
-		"/user/{username}":         parser.Account,
-		"/public_stats/{img_name}": parser.PublicStats,
-		"/image_stats/{img_name}":  parser.ImageStats,
+		// "/user/{username}":         parser.Account,
+		// "/public_stats/{img_name}": parser.PublicStats,
+		// "/image_stats/{img_name}":  parser.ImageStats,
 
 		"/manifest.json": parser.Manifest,
-		"/sw_init.js": parser.ServiceWorkerInit,
-		"/sw.js": parser.ServiceWorker,
+		"/sw_init.js":    parser.ServiceWorkerInit,
+		"/sw.js":         parser.ServiceWorker,
 
 		"/.well-known/assetslinks.json": parser.AssetsLink,
 	}
 
 	end_points := map[string]func(http.ResponseWriter, *http.Request){
 		//regommendation router
-		"/main_content": regommend.FetchMeemz,
+		"/main_content":       regommend.FetchMeemz,
+		"/main_veemz_content": regommend.FetchVeemz,
 
 		//authentication router
-		"/check_user":        authentication.CheckUser,
 		"/signup_auth":       authentication.Signup,
 		"/wrong_mail":        authentication.DeleteUser,
 		"/fetch_user":        authentication.FetchUser,
@@ -62,17 +61,14 @@ func Routes() *mux.Router {
 
 		//upload router
 		"/upload_meemz":        upload.UploadMeemz,
-		"/upload_veemz": 		upload.UploadVeemz,
+		"/upload_veemz":        upload.UploadVeemz,
 		"/update_meemz_config": upload.UpdateMeemzConfig,
 		"/update_veemz_config": upload.UpdateVeemzConfig,
-		"/upload_convo_images": upload.UploadConvoImages,
+		"/generate_new_id":     upload.GenerateNewId,
 
 		//profile router
 		"/my_uploads":              contentfetch.MyUploads,
-		"/fetch_private_posts":     contentfetch.FetchMyPrivateUploads,
 		"/fetch_user_uploads":      contentfetch.UsersUploads,
-		"/publicize_post":          contentfetch.PublicizePost,
-		"/delete_post":             contentfetch.DeletePost,
 		"/profile_img_upload":      profile.ProfileUpload,
 		"/profile_change_username": profile.PostUsernameToDb,
 		"/profile_change_email":    profile.PostEmailToDb,
@@ -81,26 +77,31 @@ func Routes() *mux.Router {
 		"/subscribe":               profile.Subscribe,
 		"/unsubscribe":             profile.UnSubscribe,
 		"/fetch_subs":              profile.FetchSubs,
+		"/delete_post":             profile.DeletePost,
 
 		//search router
 		"/search_meemz": contentfetch.SearchMeemz,
 		"/search_users": contentfetch.SearchUsers,
 		"/search_tags":  contentfetch.SearchTags,
-		//-------------stats router
-		"/fetch_stats": contentfetch.StatsHandler,
 
 		//activities router
-		"/post_reaction":        activities.PostReaction,
-		"/delete_reaction":      activities.DeleteReaction,
-		"/post_report":          activities.PostReport,
-		"/delete_report":        activities.DeleteReport,
-		"/fetch_my_comments":    activities.FetchMyComments,
-		"/fetch_o_comments":     activities.FetchOtherComments,
-		"/post_comment":         activities.PostComment,
-		"/viewed":               activities.Viewed,
-		"/notifications_go":     activities.FetchNotifications,
+		// "/post_reaction":   activities.PostReaction,
+		// "/delete_reaction": activities.DeleteReaction,
+		// "/post_report":     activities.PostReport,
+		// "/delete_report":   activities.DeleteReport,
+
+		"/fetch_comments":          activities.FetchComments,
+		"/fetch_replies":           activities.FetchReplies,
+		"/post_comment":            activities.PostComment,
+		"/post_reply":              activities.PostReply,
+		"/post_comment_reaction":   activities.PostCommentReplyLike,
+		"/delete_comment":          activities.DeleteComment,
+		"/delete_reply":            activities.DeleteReply,
+		"/delete_comment_reaction": activities.DeleteCommentReplyLike,
+
+		"/fetch_notifications":  activities.FetchNotifications,
 		"/delete_notifications": activities.DeleteNotifications,
-		"/notify_invite":        activities.NotifyInvite,
+		"/ws":                   activities.ClientHandler,
 	}
 
 	for route, http_func := range templates {

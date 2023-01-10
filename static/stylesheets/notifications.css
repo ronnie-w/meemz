@@ -1,0 +1,42 @@
+.meemz_notification_details {
+    padding: 6px;
+    height: fit-content;
+}
+
+.meemz_notification_img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.meemz_notification_avi {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 100px;
+}
+
+.meemz_notification_username {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: small;
+}
+
+.meemz_notification_timestamp {
+    color: grey;
+    font-size: small;
+    float: right;
+}
+
+.meemz_notification {
+    margin-top: 0;
+    padding: 0 12px 12px 12px;
+}
+
+.meemz_notifications_actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.meemz_notifications {
+    margin-bottom: 25px;
+}

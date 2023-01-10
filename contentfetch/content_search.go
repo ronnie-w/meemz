@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/meemz/authentication"
+	"github.com/meemz/regommend"
 )
 
 type Posts struct {
@@ -173,7 +174,7 @@ func ExecQueryMeemz(rows *sql.Rows, uid string) {
 			reaction5 = "fas fa-angry"
 		}
 
-		MeemzContent = append(MeemzContent, &Posts{Username: username, ProfileImg: profileImg, ImgName: imgName, LabelOcr: labelOcr, LogoOcr: logoOcr, FaceOcr: faceOcr, LandmarkOcr: landmarkOcr, TextOcr: textOcr, SafeSearchOcr: safeSearchOcr, PossibleDuplicate: possibleDuplicate, Tags: tags, PComment: pComment, UploadTime: uploadTime, Reaction1: reaction1, Reaction2: reaction2, Reaction3: reaction3, Reaction4: reaction4, Reaction5: reaction5})
+		MeemzContent = append(MeemzContent, &Posts{Username: username, ProfileImg: profileImg, ImgName: imgName, LabelOcr: labelOcr, LogoOcr: logoOcr, FaceOcr: faceOcr, LandmarkOcr: landmarkOcr, TextOcr: textOcr, SafeSearchOcr: safeSearchOcr, PossibleDuplicate: possibleDuplicate, Tags: tags, PComment: pComment, UploadTime: regommend.TimeStamp(uploadTime), Reaction1: reaction1, Reaction2: reaction2, Reaction3: reaction3, Reaction4: reaction4, Reaction5: reaction5})
 	}
 
 	defer rows.Close()
@@ -225,7 +226,7 @@ func ExecQueryTags(rows *sql.Rows, uid string) {
 			reaction5 = "fas fa-angry"
 		}
 
-		TagsContent = append(TagsContent, &Posts{Username: username, ProfileImg: profileImg, ImgName: imgName, LabelOcr: labelOcr, LogoOcr: logoOcr, FaceOcr: faceOcr, LandmarkOcr: landmarkOcr, TextOcr: textOcr, SafeSearchOcr: safeSearchOcr, PossibleDuplicate: possibleDuplicate, Tags: tags, PComment: pComment, UploadTime: uploadTime, Reaction1: reaction1, Reaction2: reaction2, Reaction3: reaction3, Reaction4: reaction4, Reaction5: reaction5})
+		TagsContent = append(TagsContent, &Posts{Username: username, ProfileImg: profileImg, ImgName: imgName, LabelOcr: labelOcr, LogoOcr: logoOcr, FaceOcr: faceOcr, LandmarkOcr: landmarkOcr, TextOcr: textOcr, SafeSearchOcr: safeSearchOcr, PossibleDuplicate: possibleDuplicate, Tags: tags, PComment: pComment, UploadTime: regommend.TimeStamp(uploadTime), Reaction1: reaction1, Reaction2: reaction2, Reaction3: reaction3, Reaction4: reaction4, Reaction5: reaction5})
 	}
 
 	defer rows.Close()

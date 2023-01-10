@@ -11,10 +11,13 @@ import (
 var db = database.Conn()
 
 type Config struct {
-	Access   string
-	Tags     string
-	Pinned   string
-	FileName string
+	Credits      string
+	Tags         string
+	Pinned       string
+	FileName     string
+	OriginalName string
+	UploadType   string
+	FileIndex   int
 }
 
 func FormConfig(r *http.Request) *Config {
@@ -25,8 +28,8 @@ func FormConfig(r *http.Request) *Config {
 	return config
 }
 
-func DuplicateCheck(r *http.Request, textOcr string) (string, int) {
-	rows, err := db.Query("SELECT textOcr FROM posts WHERE textOcr=?", textOcr)
+func CheckOriginalName(originalName string) bool {
+	rows, err := db.Query("SELECT originalName FROM posts WHERE originalName=?", originalName)
 	if err != nil {
 		log.Println(err)
 	}
@@ -37,10 +40,30 @@ func DuplicateCheck(r *http.Request, textOcr string) (string, int) {
 	}
 
 	if length > 0 {
-		return "Yes", length
+		return true
 	}
 
 	defer rows.Close()
 
-	return "No", length
+	return false
+}
+
+func DuplicateCheck(r *http.Request, textOcr string) (string, int) {
+	// rows, err := db.Query("SELECT textOcr FROM posts WHERE textOcr=?", textOcr)
+	// if err != nil {
+	// 	log.Println(err)
+	// }
+
+	// var length int
+	// for rows.Next() {
+	// 	length++
+	// }
+
+	// if length > 0 {
+	// 	return "Yes", length
+	// }
+
+	// defer rows.Close()
+
+	return "No" /*length*/, 0
 }

@@ -1,67 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meemz | Signup</title>
+    <meta name="theme-color" content="#202b38">
+    <meta name="description" content="Signup | meemz">
+    
+    <script type="module" src="/static/scripts/dependencies/theme.js"></script>
 
-    <link rel="icon" href="../static/icons/favicon.ico" />
-    <link rel="apple-touch-icon" href="../static/icons/favicon.ico">
     <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="../static/icons/favicon.ico" />
+    <link rel="apple-touch-icon" href="../static/icons/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="../static/stylesheets/App.css">
-    <link rel="stylesheet" href="../static/stylesheets/index.css">
-    <link rel="stylesheet" href="../static/stylesheets/BottomNav.css">
-    <link rel="stylesheet" href="../static/stylesheets/Convo.css">
-    <link rel="stylesheet" href="../static/stylesheets/ConvoCreate.css">
-    <link rel="stylesheet" href="../static/stylesheets/ConvoPage.css">
-    <link rel="stylesheet" href="../static/stylesheets/Create.css">
-    <link rel="stylesheet" href="../static/stylesheets/dark.css">
-    <link rel="stylesheet" href="../static/stylesheets/Home.css">
-    <link rel="stylesheet" href="../static/stylesheets/ImageStats.css">
-    <link rel="stylesheet" href="../static/stylesheets/PrivatePosts.css">
-    <link rel="stylesheet" href="../static/stylesheets/Profile.css">
-    <link rel="stylesheet" href="../static/stylesheets/ProfileEdit.css">
-    <link rel="stylesheet" href="../static/stylesheets/Search.css">
-    <link rel="stylesheet" href="../static/stylesheets/Signup.css">
-    <link rel="stylesheet" href="../static/stylesheets/Verify.css">
+    <link rel="stylesheet" id="color-scheme" href="">
+    <link rel="stylesheet" href="/static/stylesheets/auth.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
+    <script src="/sw.js"></script>
+    <script src="/sw_init.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
-    <script src="/sw.js" defer></script>
-    <script src="/sw_init.js" defer></script>
+    <script src="/static/scripts/dependencies/qs.min.js" defer></script>
+    <script src="/static/scripts/dependencies/axios.min.js" defer></script>
+
+    <script type="module" src="/static/scripts/auth.js" defer></script>
+
+    <title>Signup</title>
 </head>
-
 <body>
-    <div class="signup">
-        <h2 class="auth_title">Meemz</h2>
-        <a href="/login">
-            <p class="login_req">Already have a Meemz account? Log in</p>
-        </a>
-        <div class="signup_div">
-            <p id="auth_errs" class="auth_errs"></p>
-            <div class="username_input_div"><input id="username_input" type="text" placeholder="Username"
-                    class="username_input" /></div>
-            <div class="email_input_div"><input id="email_input" type="email" placeholder="Email" class="email_input" />
-            </div>
-            <div class="password_input_div">
-                <i id="show_hide" class="password_eye fal fa-eye"></i>
-                <input id="password_input" type="password" placeholder="Password" class="password_input" />
-            </div>
-            <div class="signup_btn_div"><button type="submit" id="signup_btn" onclick="submitSignup()"
-                    class="signup_btn">Sign up</button></div>
-        </div>
-        <div style="width : 100%; display : grid; place-content : center; margin-top : 50px;">
-            <p><a href="/terms" style="font-size: small; color: cornflowerblue;">Terms of service and Privacy policy</a></p>
+    <div class="meemz_main_title_div">
+        <div class="meemz_main_title">
+            <h1 class="meemz_title">comical</h1>
         </div>
     </div>
-</body>
-<script src="../static/scripts/signup.js"></script>
 
+    <center>
+        <div class="meemz_auth_nav_bar">
+            <div class="meemz_auth_header">
+                <h3 class="login">Login</h3>
+            </div>
+            <div class="meemz_auth_header">
+                <h3 class="signup">Signup</h3>
+            </div>
+        </div>
+    </center>
+
+    <div class="meemz_centered_content">
+        <input type="text" placeholder="Username" id="meemz_username" minlength="3">
+        <input type="email" placeholder="Email" id="meemz_email">
+        <input type="password" placeholder="Password" id="meemz_password" minlength="6">
+        <div>
+            <input type="checkbox" name="show_password" id="show_password">
+            <label for="show_password">Show password</label>
+        </div>
+    </div>
+
+    <center>
+        <button class="meemz_auth" type="submit">Signup</button>
+    </center>
+
+</body>
 </html>

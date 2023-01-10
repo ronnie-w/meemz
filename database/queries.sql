@@ -2,9 +2,10 @@ CREATE TABLE users(
     id int not null PRIMARY key AUTO_INCREMENT,
     username blob not null,
     userId varchar(255) not null,
-    email varchar(255) not null,
+    email blob not null,
     password blob not null,
     serverCode varchar(255) not null,
+    joinDate varchar(255) not null,
     passCode varchar(255) not null DEFAULT "0",
     isVerified varchar(3) not null DEFAULT "No",
     profileImg varchar(255) not null DEFAULT "blank-profile-picture-973460_1280.png",
@@ -14,64 +15,28 @@ CREATE TABLE users(
 CREATE TABLE posts(
     id int not null PRIMARY key AUTO_INCREMENT,
     userId varchar(50) not null,
-    imgName varchar(255) not null,
-    labelOcr blob not null,
-    logoOcr blob not null,
-    faceOcr blob not null,
-    landmarkOcr blob not null,
-    textOcr blob not null,
-    safeSearchOcr blob not null,
+    fileName varchar(255) not null,
+    labelOcr blob not null DEFAULT "N/A",
+    logoOcr blob not null DEFAULT "N/A",
+    faceOcr blob not null DEFAULT "N/A",
+    landmarkOcr blob not null DEFAULT "N/A",
+    textOcr blob not null DEFAULT "N/A",
+    safeSearchOcr blob not null DEFAULT "N/A",
     possibleDuplicate varchar(3) not null DEFAULT "No",
     duplicateNum blob not null DEFAULT "0",
     tags blob not null DEFAULT "",
     pComment blob not null DEFAULT "",
-    access blob DEFAULT "Public",
-    uploadTime blob DEFAULT "N/A"
-);
-
-CREATE TABLE veemz(
-    id int not null PRIMARY key AUTO_INCREMENT,
-    userId varchar(50) not null,
-    vidName varchar(255) not null,
-    tags blob not null DEFAULT "",
-    pComment blob not null DEFAULT "",
-    access blob DEFAULT "Public",
-    uploadTime blob DEFAULT "N/A"
-);
-
-CREATE TABLE chatRooms(
-    id int not null PRIMARY KEY AUTO_INCREMENT,
-    userId blob not null,
-    topic blob not null,
-    title blob not null,
-    topicProfile blob not null,
-    authorizedNumber blob not null,
-    chatRoomId blob not null,
-    createdOn blob not null
-);
-
-CREATE TABLE chatRoomMembers(
-    id int not null PRIMARY KEY AUTO_INCREMENT,
-    userId blob not null,
-    chatRoomId blob not null,
-    memberStatus blob not null,
-    joinedOn blob not null
-);
-
-CREATE TABLE activeChats(
-    id int not null PRIMARY KEY AUTO_INCREMENT,
-    userId blob not null,
-    chatType blob not null,
-    chat blob not null,
-    chatDate blob not null,
-    chatTime blob not null,
-    chatRoomId blob not null
+    credits blob not null DEFAULT "",
+    uploadTime blob not null DEFAULT "N/A",
+    originalName blob not null DEFAULT "",
+    fileId blob not null DEFAULT "",
+    fileIndex int not null DEFAULT 0
 );
 
 CREATE TABLE reactions(
     id int not null PRIMARY KEY AUTO_INCREMENT,
     userId blob not null,
-    imgName blob not null,
+    fileId blob not null,
     reactionType blob not null
 );
 
@@ -85,15 +50,35 @@ CREATE TABLE reports(
 CREATE TABLE comments(
     id int not null PRIMARY KEY AUTO_INCREMENT,
     userId blob not null,
-    imgName blob not null,
+    fileId blob not null,
+    commentId blob not null,
+    commentTime blob not null,
     comment blob not null
+);
+
+CREATE TABLE commentReplyLikes(
+    id int not null PRIMARY KEY AUTO_INCREMENT,
+    userId blob not null,
+    fileId blob not null,
+    commentReplyId blob not null
+);
+
+CREATE TABLE replies(
+    id int not null PRIMARY KEY AUTO_INCREMENT,
+    userId blob not null,
+    fileId blob not null,
+    commentId blob not null,
+    replyId blob not null,
+    replyTime blob not null,
+    reply blob not null
 );
 
 CREATE TABLE regommend(
     id int not null PRIMARY KEY AUTO_INCREMENT,
     userId blob not null,
     imgName blob not null,
-    pc blob not null
+    pc blob not null,
+    content_type blob not null 
 );
 
 CREATE TABLE subs(
@@ -106,7 +91,7 @@ CREATE TABLE subs(
 CREATE TABLE notifications(
     id int not null PRIMARY KEY AUTO_INCREMENT,
     userId blob not null,
-    senderId blob not null,
+    receiverId blob not null,
     notify blob not null,
     receiveTime blob not null
 );

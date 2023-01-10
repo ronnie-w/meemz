@@ -1,0 +1,75 @@
+.meemz_select_div {
+   display: grid;
+   place-content: center;
+   padding-top: 12px;
+   padding-bottom: 12px;
+}
+
+.meemz_select_file {
+   display: none;
+}
+
+.meemz_select_label {
+   border: 1px dashed grey;
+   width: fit-content;
+   border-radius: 6px;
+   display: grid;
+   place-content: center;
+}
+
+.meemz_select_label_text {
+   margin: 6px;
+}
+
+.meemz_select_text {
+   cursor: pointer;
+}
+
+.meemz_files_selected {
+   display: none;
+   overflow-x: scroll;
+   margin-bottom: 12px;
+}
+
+.meemz_files_selected_div {
+   overflow: hidden;
+}
+
+.meemz_media_div {
+   display: grid;
+   place-content: center;
+}
+
+.meemz_selected_num {
+   color: #0096bfab;
+}
+
+.meemz_upload_type {
+   margin-top: 24px;
+   display: flex;
+   justify-content: space-evenly;
+}
+
+.meemz_upload_single_div {
+   border: 1px solid #0096bfab;
+   border-radius: 6px;
+}
+
+.meemz_upload_multiple_div {
+   border: 1px solid grey;
+   border-radius: 6px;
+}
+
+.meemz_upload_multiple,
+.meemz_upload_single {
+   margin: 6px;
+   cursor: pointer;
+   user-select: none;
+}
+
+.meemz_upload_btn {
+   margin-top: 24px;
+   margin-bottom: 36px;
+   display: grid;
+   place-content: center;
+}

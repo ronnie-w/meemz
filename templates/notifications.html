@@ -5,56 +5,46 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meemz | Notifications</title>
+    <meta name="theme-color" content="#202b38">
+    <meta name="description" content="Join us in making a world full of smiles">
 
-    <link rel="icon" href="../static/icons/favicon.ico" />
-    <link rel="apple-touch-icon" href="../static/icons/favicon.ico">
+    <script type="module" src="/static/scripts/dependencies/theme.js"></script>
+
     <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/static/icons/favicon.ico" />
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="../static/stylesheets/App.css">
-    <link rel="stylesheet" href="../static/stylesheets/index.css">
-    <link rel="stylesheet" href="../static/stylesheets/BottomNav.css">
-    <link rel="stylesheet" href="../static/stylesheets/Convo.css">
-    <link rel="stylesheet" href="../static/stylesheets/ConvoCreate.css">
-    <link rel="stylesheet" href="../static/stylesheets/ConvoPage.css">
-    <link rel="stylesheet" href="../static/stylesheets/Create.css">
-    <link rel="stylesheet" href="../static/stylesheets/dark.css">
-    <link rel="stylesheet" href="../static/stylesheets/Home.css">
-    <link rel="stylesheet" href="../static/stylesheets/ImageStats.css">
-    <link rel="stylesheet" href="../static/stylesheets/PrivatePosts.css">
-    <link rel="stylesheet" href="../static/stylesheets/Profile.css">
-    <link rel="stylesheet" href="../static/stylesheets/ProfileEdit.css">
-    <link rel="stylesheet" href="../static/stylesheets/Search.css">
-    <link rel="stylesheet" href="../static/stylesheets/Signup.css">
-    <link rel="stylesheet" href="../static/stylesheets/Verify.css">
+    <link rel="stylesheet" id="color-scheme" href="">
+    <link rel="stylesheet" href="/static/stylesheets/notifications.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.0/css/all.css" />
+    <script src="/sw.js"></script>
+    <script src="/sw_init.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
-    <script src="/sw.js" defer></script>
-    <script src="/sw_init.js" defer></script>
+    <script src="/static/scripts/dependencies/qs.min.js" defer></script>
+    <script src="/static/scripts/dependencies/axios.min.js" defer></script>
+
+    <script type="module" src="/static/scripts/components/bottom_nav.js" defer></script>
+    <script type="module" src="/static/scripts/notifications.js"></script>
+
+    <title>Notifications</title>
 </head>
 
-<script>
-    axios.post("/fetch_user").then(res =>{
-        if (res.data === null) {
-            window.location.replace("/login");
-        }
-    });
-</script>
-
 <body>
-    <div class="notifications">
-        <div class="home_title_div">
-            <h2 class="home_title">Meemz</h2>
-            <small class="conversations">notifications</small>
+    <div class="meemz_main_title_div">
+        <div class="meemz_main_title">
+            <h1 class="meemz_title" onclick="javascript: window.location.assign('/')">comical</h1>
         </div>
-        <div id="notifications_div" class="notifications_div"></div>
     </div>
+
+    <div class="meemz_notifications_actions">
+        <div class="meemz_notifications_count">
+            <p id="meemz_notifications_count"></p>
+        </div>
+        <button><i class="fi fi-br-envelope-open"></i></button>
+    </div>
+
+    <div id="meemz_notifications" class="meemz_notifications"></div>
+
 </body>
-<script src="../static/scripts/notifications.js"></script>
 
 </html>

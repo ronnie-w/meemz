@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#202b38">
+    <meta name="description" content="Join us in making a world full of smiles">
+    
+    <script type="module" src="/static/scripts/dependencies/theme.js"></script>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/static/icons/favicon.ico" />
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
+
+    <link rel="stylesheet" id="color-scheme" href="">
+    <link rel="stylesheet" href="/static/stylesheets/comments.css">
+    <link rel="stylesheet" href="/static/stylesheets/animate.min.css">
+
+    <script src="/sw.js"></script>
+    <script src="/sw_init.js"></script>
+
+    <script src="/static/scripts/dependencies/qs.min.js" defer></script>
+    <script src="/static/scripts/dependencies/axios.min.js" defer></script>
+
+    <script type="module" src="/static/scripts/comments.js"></script>
+
+    <title>Comments</title>
+</head>
+
+<body>
+    <div class="meemz_main_title_div">
+        <div class="meemz_main_title">
+            <h1 class="meemz_title" onclick="javascript: window.location.assign('/')">comical</h1>
+        </div>
+    </div>
+
+    <div class="meemz_post_comment_div">
+        <div class="meemz_post_comment_inner_div">
+            <textarea id="meemz_post_comment" class="meemz_post_comment" rows="2"
+                placeholder="Post a comment"></textarea>
+            <button id="meemz_post_btn" class="meemz_post_btn"><i class="fi fi-rr-interface"></i></button>
+        </div>
+    </div>
+    
+    <div id="meemz_comment"></div>
+</body>
+
+</html>

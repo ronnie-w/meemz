@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gorilla/schema"
 	"github.com/gorilla/securecookie"
 )
 
@@ -33,28 +32,20 @@ func init() {
 }
 
 func CreateCookie(rw http.ResponseWriter, r *http.Request, value string, name string) {
-	base64enc, err := cookieHandler.Encode("R0nni3W3k35@", value)
+	base64enc, err := cookieHandler.Encode("R0nni3W3k35@M3em2", value)
 	if err != nil {
 		log.Fatalln("Error encoding cookie value")
 	}
 
 	expiry := time.Now().Add(365 * 24 * time.Hour)
 	cookie := http.Cookie{
-		Name:     name,
-		Value:    base64enc,
-		Expires:  expiry,
-		SameSite: http.SameSiteLaxMode,
+		Name:       name,
+		Value:      base64enc,
+		Expires:    expiry,
+		SameSite:   http.SameSiteLaxMode,
 	}
 
 	http.SetCookie(rw, &cookie)
-}
-
-func CookieForm(r *http.Request) *Authentication {
-	r.ParseForm()
-	key := new(Authentication)
-	schema.NewDecoder().Decode(key, r.PostForm)
-
-	return key
 }
 
 func ReadCookie(r *http.Request) string {
@@ -62,7 +53,7 @@ func ReadCookie(r *http.Request) string {
 
 	var cookieValue string
 	if cookie_err == nil {
-		if err := cookieHandler.Decode("R0nni3W3k35@", cookie.Value, &cookieValue); err != nil {
+		if err := cookieHandler.Decode("R0nni3W3k35@M3em2", cookie.Value, &cookieValue); err != nil {
 			log.Println("Error decoding cookie")
 		}
 	}
@@ -70,10 +61,12 @@ func ReadCookie(r *http.Request) string {
 	return cookieValue
 }
 
-func DecodeUID_enc(cookie string) string {
+func ReadCustomCookie(r *http.Request, val string) string {
+	cookie, cookie_err := r.Cookie(val)
+
 	var cookieValue string
-	if cookie != "" {
-		if err := cookieHandler.Decode("R0nni3W3k35@", cookie, &cookieValue); err != nil {
+	if cookie_err == nil {
+		if err := cookieHandler.Decode("R0nni3W3k35@M3em2", cookie.Value, &cookieValue); err != nil {
 			log.Println("Error decoding cookie")
 		}
 	}
@@ -81,7 +74,7 @@ func DecodeUID_enc(cookie string) string {
 	return cookieValue
 }
 
-func DeleteCookie(r *http.Request) {
+func Logout(rw http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("uid")
 	if err != nil {
 		log.Println("Error reading cookie")

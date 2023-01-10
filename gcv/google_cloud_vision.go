@@ -173,7 +173,6 @@ func SafeSearchOcr(file_dir string) (string, string, string) {
 	return "{`Adult`: " + adult + ", `Medical`: " + medical + ", `Racy`: " + racy + ", `Spoof`: " + spoof + ", `Violence`: " + violence + "}", adult, violence
 }
 
-
 func ExplicitVideoContent(file_dir string) bool {
 	var IsExplicit bool = false
 
@@ -206,9 +205,9 @@ func ExplicitVideoContent(file_dir string) bool {
 	result := resp.AnnotationResults[0].ExplicitAnnotation
 
 	for _, frame := range result.Frames {
-			if  frame.PornographyLikelihood.String() == "VERY_LIKELY" || frame.PornographyLikelihood.String() == "LIKELY" {
-				IsExplicit = true
-			}
+		if frame.PornographyLikelihood.String() == "VERY_LIKELY" || frame.PornographyLikelihood.String() == "LIKELY" {
+			IsExplicit = true
+		}
 	}
 
 	return IsExplicit

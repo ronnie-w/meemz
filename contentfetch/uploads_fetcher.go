@@ -6,46 +6,76 @@ import (
 	"log"
 	"net/http"
 
+	// "sort"
+	// "time"
+
 	"github.com/meemz/authentication"
 	"github.com/meemz/database"
 )
 
 type Uploads struct {
-	ImgName           string
-	PossibleDuplicate string
-	Access            string
-	UploadTime        string
-	DuplicateNum      string
-	Pcomment          string
-	Tags              string
+	Id int
+	FileName    string
+	UploadTime string
+	Pcomment   string
+	Tags       string
+	Credits    string
+	FileId      string
+	FileIndex   int
 }
 
 var db = database.Conn()
 
+func check(s []Uploads, item Uploads) bool {
+	for i := 0; i < len(s); i++ {
+		if s[i].FileId == item.FileId && s[i].FileName != item.FileName {
+			return true
+		}
+	}
+
+	return false
+}
+
+func group_files(s []Uploads, item Uploads, index int) ([]Uploads, []Uploads) {
+	var multiple, grouped_multiple []Uploads
+
+	for i := 0; i < len(s); i++ {
+		if s[i].FileId == item.FileId && s[i].FileName != item.FileName {
+			grouped_multiple = append(grouped_multiple, s[i])
+		} else {
+			multiple = append(multiple, s[i])
+		}
+	}
+
+	return multiple, grouped_multiple
+}
+
 func MyUploads(rw http.ResponseWriter, r *http.Request) {
 	uid := authentication.ReadCookie(r)
 
-	rows, err := db.Query("SELECT imgName,possibleDuplicate,access,uploadTime,duplicateNum,pComment,tags FROM posts WHERE userId=?", uid)
+	rows, err := db.Query("SELECT id,fileName,uploadTime,pComment,tags,credits,fileId,fileIndex FROM posts WHERE userId=?", uid)
 	if err != nil {
 		log.Println(err)
 	}
 
 	uploads := ExecQuery(rows)
 
-	json.NewEncoder(rw).Encode(uploads)
-}
+	var sorted_uploads [][]Uploads
 
-func FetchMyPrivateUploads(rw http.ResponseWriter, r *http.Request) {
-	uid := authentication.ReadCookie(r)
-
-	rows, err := db.Query("SELECT imgName,possibleDuplicate,access,uploadTime,duplicateNum,pComment,tags FROM posts WHERE userId=? AND access=?", uid, "Private")
-	if err != nil {
-		log.Println(err)
+	for i := 0; i < len(uploads); i++ {
+		isMultiple := check(uploads, uploads[i])
+		if isMultiple {
+			var grouped_multiple, multiple []Uploads
+			grouped_multiple = append(grouped_multiple, uploads[i])
+			uploads, multiple = group_files(uploads, uploads[i], i)
+			grouped_multiple = append(grouped_multiple, multiple...)
+			sorted_uploads = append(sorted_uploads, grouped_multiple)
+		} else {
+			sorted_uploads = append(sorted_uploads, []Uploads{uploads[i]})
+		}
 	}
 
-	uploads := ExecQuery(rows)
-
-	json.NewEncoder(rw).Encode(uploads)
+	json.NewEncoder(rw).Encode(sorted_uploads)
 }
 
 func UsersUploads(rw http.ResponseWriter, r *http.Request) {
@@ -56,7 +86,7 @@ func UsersUploads(rw http.ResponseWriter, r *http.Request) {
 	uid_row := db.QueryRow("SELECT userId, profileImg FROM users WHERE username=?", username)
 	uid_row.Scan(&uid, &profileImg)
 
-	rows, err := db.Query("SELECT imgName,possibleDuplicate,access,uploadTime,duplicateNum,pComment,tags FROM posts WHERE userId=? AND access=?", uid, "Public")
+	rows, err := db.Query("SELECT fileName,possibleDuplicate,access,uploadTime,duplicateNum,pComment,tags FROM posts WHERE userId=? AND access=?", uid, "Public")
 	if err != nil {
 		log.Println(err)
 	}
@@ -69,20 +99,21 @@ func UsersUploads(rw http.ResponseWriter, r *http.Request) {
 func ExecQuery(rows *sql.Rows) []Uploads {
 	var uploads []Uploads
 	for rows.Next() {
-		var imgName string
-		var possibleDuplicate string
-		var access string
+		var id int
+		var fileName string
 		var uploadTime string
-		var duplicateNum string
 		var pComment string
 		var tags string
+		var credits string
+		var fileId string
+		var fileIndex int
 
-		err := rows.Scan(&imgName, &possibleDuplicate, &access, &uploadTime, &duplicateNum, &pComment, &tags)
+		err := rows.Scan(&id, &fileName, &uploadTime, &pComment, &tags, &credits, &fileId, &fileIndex)
 		if err != nil {
 			log.Println(err)
 		}
 
-		upload := Uploads{imgName, possibleDuplicate, access, uploadTime, duplicateNum, pComment, tags}
+		upload := Uploads{id, fileName, uploadTime, pComment, tags, authentication.TextParser(credits), fileId, fileIndex}
 
 		uploads = append(uploads, upload)
 	}

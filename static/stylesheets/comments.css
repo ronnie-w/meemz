@@ -1,0 +1,74 @@
+.meemz_post_comment_inner_div {
+    padding: 12px;
+}
+
+.meemz_post_btn {
+    display: inline-block;
+    position: absolute;
+    height: 60px;
+    margin-left: 6px;
+}
+
+.meemz_comment_profile_img_div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.meemz_comment_profile_img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 100px;
+}
+
+.meemz_comment_username_div {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: small;
+}
+
+.meemz_comment_timestamp_div {
+    color: grey;
+    font-size: small;
+    float: right;
+}
+
+.meemz_main_comment {
+    padding: 6px;
+}
+
+.meemz_comment_details {
+    padding: 6px;
+    height: fit-content;
+}
+
+.meemz_comment_actions {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.meemz_comment_like,
+.meemz_comment_reply,
+.meemz_comment_hide,
+.meemz_comment_delete {
+    margin: 6px;
+}
+
+i {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: large;
+    cursor: pointer;
+}
+
+label {
+    margin: 6px;
+}
+
+.meemz_comment_count_num {
+    margin: 3px;
+}
+
+.fi-br-comment-heart {
+    color: red;
+}
